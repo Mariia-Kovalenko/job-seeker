@@ -6,8 +6,8 @@ export default function PageLayout() {
   const { theme, toggleTheme } = useTheme();
   return (
     <div
-    className={`min-h-screen ${
-        theme == "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+    className={`min-h-screen overflow-x-hidden ${
+        theme == "dark" ? "bg-darkBackground text-white" : "bg-white text-darkBackground"
     }`}
     >
       <Header />

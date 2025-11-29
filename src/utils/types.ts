@@ -15,10 +15,21 @@ type Job = {
 
 type JobsData = {
     jobs: {
-      edges: {
-        node: Job; 
-      }[];
+        edges: {
+            node: Job;
+            cursor: string;
+        }[];
+        pageInfo: {
+            hasNextPage: boolean;
+            endCursor: string;
+        };
     };
-  }
+}
 
-export type { Job, JobsData };
+type User = {
+    email: string;
+    token?: string;
+    company?: string;
+}
+
+export type { Job, JobsData, User };

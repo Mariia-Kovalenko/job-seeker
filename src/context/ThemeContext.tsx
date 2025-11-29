@@ -21,7 +21,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         const stored = localStorage.getItem("theme");
-        if (stored) setTheme(stored);
+
+        console.log("stored", stored);
+        if (stored && stored !== theme) {
+            setTheme(stored);
+        }
     }, []);
 
     useEffect(() => {
@@ -33,6 +37,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, [theme]);
 
     const toggleTheme = () => {
+
+        console.log("toggling theme", theme);
         setTheme((prev) =>
             prev === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT
         );
