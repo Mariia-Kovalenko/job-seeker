@@ -6,8 +6,16 @@ import { useTheme } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react";
 import { LOGIN } from "../graphql/queries";
-import Button from '../common/Button';
+import Button from "../common/Button";
 import { useUserStore } from "../store/userStore";
+import { useGoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "jwt-decode";
+import axios from "axios";
+
+interface MyJwtPayload extends JwtPayload {
+    email?: string; // Add the email property, since it might not always be present
+}
 
 export const Login = () => {
     const { theme } = useTheme();
@@ -18,6 +26,14 @@ export const Login = () => {
     const [submitting, setSubmitting] = useState<boolean>(false);
 
     const { setUser } = useUserStore();
+
+    // upon visiting login, if user is already logged in, redirect to jobs
+    // useEffect(() => {
+    //     const user = localStorage.getItem('user');
+    //     if (user) {
+    //         navigate('/jobs');
+    //     }
+    // }, []);
 
     const handleDisplayPassword = () => {
         setShowPassword(!showPassword);
@@ -48,15 +64,17 @@ export const Login = () => {
             setSubmitting(true);
             try {
                 console.log(values);
-                const { data, error }: { data: any, error: any } = await login({ variables: values }) as { data: any, error: any };
+                const { data, error }: { data: any; error: any } = (await login(
+                    { variables: values }
+                )) as { data: any; error: any };
                 console.log(data);
                 if (error) {
                     throw new Error(error.message);
                 }
                 const token = data.login.jwt_token;
-                localStorage.setItem('token', token);
+                localStorage.setItem("token", token);
                 setUser({ email: values.email, token: token });
-                navigate('/jobs');
+                navigate("/jobs");
             } catch (error: any) {
                 console.error(error);
             } finally {
@@ -65,11 +83,56 @@ export const Login = () => {
         },
     });
 
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            console.log("response", tokenResponse);
+            const token = tokenResponse.access_token;
+            console.log("token", token);
+
+            const userInfo = await axios.get(
+                "https://www.googleapis.com/oauth2/v3/userinfo",
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+            console.log("userInfo", userInfo.data);
+            const email = userInfo.data.email;
+            console.log("email", email);
+            if (!email) {
+                throw new Error("Email not found");
+            }
+            // add user to store
+            setUser({ email: email, token: token });
+            navigate("/jobs");
+        },
+        onError: () => {
+            console.log("Login Failed");
+        },
+    });
+
     return (
         <div className="w-full max-w-md mx-auto text-left px-4 py-6 min-h-[calc(100vh-64px)] flex flex-col justify-center">
             <h1 className="text-3xl font-bold mb-4">Login</h1>
-            <p className={`text-md font-medium ${theme == "dark" ? "text-white" : "text-gray-500"} mb-2`}>Sign in to your account</p>
-            <div className={`text-sm ${theme == "dark" ? "text-white" : "text-gray-500"} mb-10`}>Do not have an account? <Link to="/register" className="text-primary underline hover:text-primary/90 transition-all duration-300">Register</Link></div>
+            <p
+                className={`text-md font-medium ${
+                    theme == "dark" ? "text-white" : "text-gray-500"
+                } mb-2`}
+            >
+                Sign in to your account
+            </p>
+            <div
+                className={`text-sm ${
+                    theme == "dark" ? "text-white" : "text-gray-500"
+                } mb-10`}
+            >
+                Do not have an account?{" "}
+                <Link
+                    to="/register"
+                    className="text-primary underline hover:text-primary/90 transition-all duration-300"
+                >
+                    Register
+                </Link>
+            </div>
             <form
                 onSubmit={formik.handleSubmit}
                 className=" flex flex-col gap-6 items-start"
@@ -80,8 +143,7 @@ export const Login = () => {
                     </label>
                     <input
                         className={`w-full p-2 bg-transparent border-[1.3px] rounded-lg h-12 ${
-                            formik.touched.password &&
-                            formik.errors.password
+                            formik.touched.password && formik.errors.password
                                 ? "border-red-600"
                                 : theme == "dark"
                                 ? "text-white bg-lightGrey border-gray-300"
@@ -140,8 +202,39 @@ export const Login = () => {
                     ) : null}
                 </fieldset>
 
-                <Button loading={submitting} type="submit" fullWidthDesktop fullWidthMobile>Submit</Button>
+                <Button
+                    loading={submitting}
+                    type="submit"
+                    fullWidthDesktop
+                    fullWidthMobile
+                >
+                    Submit
+                </Button>
             </form>
+
+            {/*  google login */}
+            <div className="w-full flex flex-col gap-4 items-start mt-4">
+                <div className="w-full flex gap-2 items-center justify-center">
+                    {/* divider line */}
+                    <div className="w-full h-[1px] bg-gray-300"></div>
+                    <div className="text-sm text-center w-[30%] opacity-50">
+                        or
+                    </div>
+                    {/* divider line right */}
+                    <div className="w-full h-[1px] bg-gray-300"></div>
+                </div>
+                <button
+                    onClick={() => googleLogin()}
+                    className="google-login-button w-full flex items-center justify-center gap-2 border-[1.3px] rounded-full h-12"
+                >
+                    <img
+                        src="/google-logo.webp"
+                        alt="Google Logo"
+                        className="logo-icon w-6 h-6"
+                    />
+                    Sign in with Google
+                </button>
+            </div>
         </div>
     );
 };

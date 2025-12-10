@@ -7,6 +7,7 @@ import { Register } from './components/Register';
 import JobForm from './components/JobForm';
 import Home from './pages/Home';
 import { useUserStore } from './store/userStore';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const user = localStorage.getItem('user');
@@ -15,19 +16,23 @@ function App() {
   } else {
     useUserStore.setState({ user: null });
   }
+
+  console.log('client id', process.env.REACT_APP_GOOGLE_CLIENT_ID);
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route element={<PageLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/jobs" element={<Jobs />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/job-form" element={<JobForm />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PageLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/jobs" element={<Jobs />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/job-form" element={<JobForm />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </div>
   );
 }

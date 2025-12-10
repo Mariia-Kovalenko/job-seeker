@@ -5,6 +5,8 @@ import { EyeSlashIcon } from "../icons/EyeSlashIcon";
 import { useTheme } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
 import Button from '../common/Button';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 export const Register = () => {
     const { theme, toggleTheme } = useTheme();
@@ -46,6 +48,31 @@ export const Register = () => {
                 setSubmitting(false);
             }
         },
+    });
+
+    const googleLogin = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            console.log("response", tokenResponse);
+            const token = tokenResponse.access_token;
+            console.log("token", token);
+
+            const userInfo = await axios.get(
+                "https://www.googleapis.com/oauth2/v3/userinfo",
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+            console.log("userInfo", userInfo.data);
+            const email = userInfo.data.email;
+            console.log("email", email);
+            if (!email) {
+                throw new Error("Email not found");
+            }
+            // Navigate to a different page or handle the registration as needed
+        },
+        onError: () => {
+            console.log("Login Failed");
+        }
     });
 
     return (
@@ -144,6 +171,29 @@ export const Register = () => {
 
                 <Button loading={submitting} type="submit" fullWidthDesktop fullWidthMobile>Submit</Button>
             </form>
+            {/* Google login section */}
+            <div className="w-full flex flex-col gap-4 items-start mt-4">
+                <div className="w-full flex gap-2 items-center justify-center">
+                    {/* divider line */}
+                    <div className="w-full h-[1px] bg-gray-300"></div>
+                    <div className="text-sm text-center w-[30%] opacity-50">
+                        or
+                    </div>
+                    {/* divider line right */}
+                    <div className="w-full h-[1px] bg-gray-300"></div>
+                </div>
+                <button
+                    onClick={() => googleLogin()}
+                    className="google-login-button w-full flex items-center justify-center gap-2 border-[1.3px] rounded-full h-12"
+                >
+                    <img
+                        src="/google-logo.webp"
+                        alt="Google Logo"
+                        className="logo-icon w-6 h-6"
+                    />
+                    Sign in with Google
+                </button>
+            </div>
         </div>
     );
 };
