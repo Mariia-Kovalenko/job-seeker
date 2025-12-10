@@ -8,7 +8,6 @@ import { useMutation } from "@apollo/client/react";
 import { LOGIN } from "../graphql/queries";
 import Button from '../common/Button';
 import { useUserStore } from "../store/userStore";
-import { UserStore } from "../store/userStore";
 
 export const Login = () => {
     const { theme } = useTheme();

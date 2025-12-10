@@ -40,9 +40,9 @@ const container = {
     height: 40,
     // backgroundColor: "#FFBCA1",
     borderRadius: 50,
+    display: "flex",
     border: "1.5px solid #FF7A45",
     cursor: "pointer",
-    display: "flex",
     alignItems: "center",
     padding: 5,
 }

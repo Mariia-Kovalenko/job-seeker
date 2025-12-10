@@ -64,11 +64,16 @@ export default function IntroSection() {
                 </motion.div>
                 <div className="flex-1 hidden md:block">
                     {/* Placeholder for illustration image */}
-                    <div
+                    <motion.div
                         className={`w-full h-full ${
                             theme === "dark" ? "bg-darkBackground" : "bg-white"
                         } rounded-xl`}
-                    ></div>
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        <img src={'/intro.png'} alt="intro" className="w-full h-full object-cover rounded-xl" />
+                    </motion.div>
                 </div>
                 {/* <div
         className="absolute right-0 w-[500px] h-[500px] lg:w-[600px] lg:h-[600px] bg-primary blur-xl opacity-5 rounded-full"
@@ -78,7 +83,7 @@ export default function IntroSection() {
 
             {/* categories */}
             <motion.div
-                className="flex flex-wrap gap-4 mt-8 justify-center"
+                className="flex flex-wrap gap-4 mt-12 md:mt-2 justify-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}

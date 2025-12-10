@@ -6,7 +6,7 @@ export const THEMES = {
 export const API_URL = "http://localhost:4000/";
 export const API_URL_PROD = "https://jobs-api-latest.onrender.com/";
 
-export const PAGE_SIZE = 2;
+export const PAGE_SIZE = 10;
 
 export const INTRO_SECTION_IMAGES = [
   {

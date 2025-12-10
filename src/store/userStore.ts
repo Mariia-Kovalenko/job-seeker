@@ -13,7 +13,13 @@ export const useUserStore = create<UserStore>((set) => ({
   user: null as User | null,
   isLoading: false,
 
-  setUser: (user: User) => set({ user }),
+  setUser: (user: User) => {
+    localStorage.setItem('user', JSON.stringify(user));
+    set({ user: user });
+  },
   setLoading: (value: boolean) => set({ isLoading: value }),
-  logout: () => set({ user: null }),
+  logout: () => {
+    localStorage.removeItem('user');
+    set({ user: null });
+  },
 }));
