@@ -5,13 +5,15 @@ import { EyeSlashIcon } from "../icons/EyeSlashIcon";
 import { useTheme } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react";
-import { LOGIN } from "../graphql/queries";
+import { LOGIN } from "../graphql/mutations";
 import Button from "../common/Button";
 import { useUserStore } from "../store/userStore";
 import { useGoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jwt-decode";
 import axios from "axios";
+import { GOOGLE_LOGIN } from "../graphql/mutations";
+import { GoogleLogin } from "@react-oauth/google";
 
 interface MyJwtPayload extends JwtPayload {
     email?: string; // Add the email property, since it might not always be present
@@ -22,8 +24,12 @@ export const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const [login, { loading, error }] = useMutation(LOGIN);
+    const [googleLoginMutation] = useMutation(GOOGLE_LOGIN); 
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState<boolean>(false);
+
+    // TODO: improve this error
+    const [googleLoginError, setGoogleLoginError] = useState<string>("");
 
     const { setUser } = useUserStore();
 
@@ -83,32 +89,56 @@ export const Login = () => {
         },
     });
 
-    const googleLogin = useGoogleLogin({
-        onSuccess: async (tokenResponse) => {
-            console.log("response", tokenResponse);
-            const token = tokenResponse.access_token;
-            console.log("token", token);
+    const loginSuccess = async (credentialResponse: any) => {
+        console.log(credentialResponse);
+        const token = credentialResponse.credential;
+        console.log(token);
 
-            const userInfo = await axios.get(
-                "https://www.googleapis.com/oauth2/v3/userinfo",
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
-            console.log("userInfo", userInfo.data);
-            const email = userInfo.data.email;
-            console.log("email", email);
-            if (!email) {
-                throw new Error("Email not found");
+        try {
+            // send request to backend to verify user and get user info
+            const { data, errors }: { data: any; errors: any } = (await googleLoginMutation({ variables: { token: token } })) as { data: any; errors: any };
+            console.log(data, errors);
+            if (errors) {
+                throw new Error(errors[0].message);
             }
-            // add user to store
-            setUser({ email: email, token: token });
+            const { email, newToken } = data.googleLogin;
+            setUser({ email: email, token: newToken });
             navigate("/jobs");
-        },
-        onError: () => {
-            console.log("Login Failed");
-        },
-    });
+        } catch (err: any) {
+            // Handle the error by setting an error state or displaying a toast
+            if (err.message.includes('User not found')) {
+                // show error message
+                setGoogleLoginError("User not found");
+            }
+        }
+    }
+
+    // const googleLogin = useGoogleLogin({
+    //     onSuccess: async (tokenResponse) => {
+    //         console.log("response", tokenResponse);
+    //         const token = tokenResponse.access_token;
+    //         console.log("token", token);
+
+    //         const userInfo = await axios.get(
+    //             "https://www.googleapis.com/oauth2/v3/userinfo",
+    //             {
+    //                 headers: { Authorization: `Bearer ${token}` },
+    //             }
+    //         );
+    //         console.log("userInfo", userInfo.data);
+    //         const email = userInfo.data.email;
+    //         console.log("email", email);
+    //         if (!email) {
+    //             throw new Error("Email not found");
+    //         }
+    //         // add user to store
+    //         setUser({ email: email, token: token });
+    //         navigate("/jobs");
+    //     },
+    //     onError: () => {
+    //         console.log("Login Failed");
+    //     },
+    // });
 
     return (
         <div className="w-full max-w-md mx-auto text-left px-4 py-6 min-h-[calc(100vh-64px)] flex flex-col justify-center">
@@ -212,15 +242,52 @@ export const Login = () => {
                 </Button>
             </form>
 
-            {/*  google login */}
+            {(error || googleLoginError) && (
+                <div className="text-red-600 text-center text-sm mt-4 mb-4">
+                    {error?.message || googleLoginError || "An error occurred"}
+                </div>
+            )}
+
+            <div className="w-full flex flex-col gap-4 items-start mt-4">
+                    <div className="w-full flex gap-2 items-center justify-center">
+                        <div className="w-full h-[1px] bg-gray-300"></div>
+                        <div className="text-sm text-center w-fit opacity-50 whitespace-nowrap">
+                            or sign in with
+                        </div>
+                        <div className="w-full h-[1px] bg-gray-300"></div>
+                    </div>
+                    <div className="google-login-button-content border-[1.3px] rounded-full mx-auto relative w-full h-12">
+                        <div className="absolute flex gap-2 items-center justify-center inset-0 w-full h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <img
+                            src="/google-logo.webp"
+                            alt="Google Logo"
+                            className="logo-icon w-6 h-6"
+                        />
+                        Sign in with Google
+                        </div>
+                        <div className="absolute inset-0 w-full h-full opacity-0">
+                            <GoogleLogin
+                                // type="icon"
+                                locale="en"
+                                theme="outline"
+                                width="600px"
+                                text="signin_with"
+                                onSuccess={loginSuccess}
+                                onError={() => {
+                                    console.log("Login Failed");
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+            {/*  google login
             <div className="w-full flex flex-col gap-4 items-start mt-4">
                 <div className="w-full flex gap-2 items-center justify-center">
-                    {/* divider line */}
                     <div className="w-full h-[1px] bg-gray-300"></div>
                     <div className="text-sm text-center w-[30%] opacity-50">
                         or
                     </div>
-                    {/* divider line right */}
                     <div className="w-full h-[1px] bg-gray-300"></div>
                 </div>
                 <button
@@ -235,6 +302,7 @@ export const Login = () => {
                     Sign in with Google
                 </button>
             </div>
+            */}
         </div>
     );
 };

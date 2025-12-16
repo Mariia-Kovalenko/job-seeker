@@ -37,22 +37,3 @@ export const GET_JOB = gql`
         }
     }
 `;
-
-
-export const LOGIN = gql`
-    mutation Login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
-            email,
-            jwt_token
-        }
-    }
-`;
-
-
-export const CREATE_USER = gql`
-    mutation CreateUser($email: String!, $password: String!) {
-        createUser(email: $email, password: $password) {
-            email, password
-        }
-    }
-`;
