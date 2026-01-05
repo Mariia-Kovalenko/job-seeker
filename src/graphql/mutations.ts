@@ -36,6 +36,7 @@ export const LOGIN = gql`
     mutation Login($email: String!, $password: String!) {
         login(email: $email, password: $password) {
             email,
+            companyName,
             jwt_token
         }
     }
@@ -45,6 +46,7 @@ export const GOOGLE_LOGIN = gql`
     mutation Login($token: String!) {
         googleLogin(token: $token) {
             email,
+            companyName,
             jwt_token
         }
     }
@@ -53,6 +55,7 @@ export const GOOGLE_REGISTER = gql`
     mutation GoogleRegister($email: String!, $companyName: String!) {
         googleRegister(email: $email, companyName: $companyName) {
             email,
+            companyName,
             jwt_token
         }
     }
@@ -60,9 +63,9 @@ export const GOOGLE_REGISTER = gql`
 
 
 export const CREATE_USER = gql`
-    mutation CreateUser($email: String!, $password: String!) {
-        createUser(email: $email, password: $password) {
-            email, password
+    mutation CreateUser($email: String!, $password: String!, $companyName: String!) {
+        createUser(email: $email, password: $password, companyName: $companyName) {
+            email, companyName,
         }
     }
 `;

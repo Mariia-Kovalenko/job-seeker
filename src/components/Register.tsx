@@ -12,7 +12,7 @@ import {
 } from "@react-oauth/google";
 import axios from "axios";
 import { useMutation } from "@apollo/client/react";
-import { GOOGLE_REGISTER } from "../graphql/mutations";
+import { GOOGLE_REGISTER, CREATE_USER } from "../graphql/mutations";
 import { useUserStore } from "../store/userStore";
 
 export const Register = () => {
@@ -21,7 +21,10 @@ export const Register = () => {
     const passwordInputRef = useRef<HTMLInputElement>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [googleEmail, setGoogleEmail] = useState("");
-    const [googleRegisterMutation, { loading, error }] = useMutation(GOOGLE_REGISTER);
+    const [googleRegisterMutation] = useMutation(GOOGLE_REGISTER);
+    const [registerMutation] = useMutation(CREATE_USER);
+
+    const [error, setError] = useState<string>("");
 
     const { setUser } = useUserStore();
 
@@ -101,23 +104,60 @@ export const Register = () => {
         },
         onSubmit: async (values) => {
             setSubmitting(true);
-            console.log('submit form values', values);
-            try {
-                // send request to backend to register user
-                const { data, errors }: { data: any; errors: any } = (await googleRegisterMutation({ variables: { email: values.email, companyName: values.company } })) as { data: any; errors: any };
-                console.log(data, errors);
-                if (errors) {
-                    throw new Error(errors[0].message);
+            console.log('submit form values', values, googleEmail);
+
+            if (googleEmail) {
+                try {
+                    // send request to backend to register user
+                    const { data, errors }: { data: any; errors: any } = (await googleRegisterMutation({ variables: { email: values.email, companyName: values.company } })) as { data: any; errors: any };
+                    console.log(data, errors);
+                    if (errors) {
+                        throw new Error(errors[0].message);
+                    }
+                    const { email, newToken } = data.googleRegister;
+                    setUser({ email: email, token: newToken });
+                    navigate("/jobs");
+                } catch (err: any) {
+                    console.log('error', err.message);
+                    setSubmitting(false);
+                    // if user exists, remove googleEmail, clear form values display error
+                    if (err.message.includes('User already exists')) {
+                        setGoogleEmail("");
+                        formik.setErrors({ email: "User already exists", password: "", company: "" });
+                        clearFormikFields();
+                        setError("User already exists");
+                    }
                 }
-                const { email, newToken } = data.googleRegister;
-                setUser({ email: email, token: newToken });
-                navigate("/jobs");
-            } finally {
-                setSubmitting(false);
+            } else {
+                console.log('submit form values with regular register');
+                try {
+                    const { data, errors }: { data: any; errors: any } = (await registerMutation({ variables: { email: values.email, password: values.password, companyName: values.company } })) as { data: any; errors: any };
+                    console.log(data, errors);
+                    if (errors) {
+                        throw new Error(errors[0].message);
+                    }
+                    const { email, newToken } = data.createUser;
+                    setUser({ email: email, token: newToken });
+                    navigate("/jobs");
+                } catch (err: any) {
+                    console.log('error', err);
+                    setSubmitting(false);
+                    setError("User already exists");
+                    if (err.message.includes('User already exists')) {
+                        clearFormikFields();
+                        formik.setErrors({ email: "User already exists", password: "", company: "" });
+                        setError("User already exists");
+                    }
+                }
             }
         },
     });
 
+    function clearFormikFields() {
+        formik.setValues({ email: "", password: "", company: "" });
+        formik.setTouched({ email: false, password: false, company: false });
+        setError("");
+    }
     return (
         <div className="w-full max-w-md mx-auto text-left px-4 py-6 min-h-[calc(100vh-64px)] flex flex-col justify-center">
             <h1 className="text-3xl font-bold mb-4">Register</h1>
@@ -249,6 +289,13 @@ export const Register = () => {
                     Submit
                 </Button>
             </form>
+
+            {/* errors + formik errors */}
+            {error  && (
+                <div className="text-red-600 text-center text-sm mt-4 mb-4 border-red-600/50 border-2 rounded-md p-2">
+                    {error || formik.errors.email || formik.errors.password || formik.errors.company || "An error occurred"}
+                </div>
+            )}
 
             {/* {!googleEmail && (
                 <div className="w-full flex flex-col gap-4 items-start mt-4">

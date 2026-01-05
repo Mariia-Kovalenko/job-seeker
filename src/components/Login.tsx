@@ -78,9 +78,10 @@ export const Login = () => {
                     throw new Error(error.message);
                 }
                 const token = data.login.jwt_token;
+                const company = data.login.companyName;
                 localStorage.setItem("token", token);
-                setUser({ email: values.email, token: token });
-                navigate("/jobs");
+                setUser({ email: values.email, token: token, company: company });
+                // navigate("/jobs");
             } catch (error: any) {
                 console.error(error);
             } finally {
@@ -97,18 +98,22 @@ export const Login = () => {
         try {
             // send request to backend to verify user and get user info
             const { data, errors }: { data: any; errors: any } = (await googleLoginMutation({ variables: { token: token } })) as { data: any; errors: any };
-            console.log(data, errors);
+            console.log('response', data, errors);
             if (errors) {
                 throw new Error(errors[0].message);
             }
-            const { email, newToken } = data.googleLogin;
-            setUser({ email: email, token: newToken });
+            const { email, newToken, companyName } = data.googleLogin;
+
+            setUser({ email: email, token: newToken, company: companyName });
             navigate("/jobs");
         } catch (err: any) {
+            console.log('error', err);
             // Handle the error by setting an error state or displaying a toast
             if (err.message.includes('User not found')) {
                 // show error message
+                console.log('user not found');
                 setGoogleLoginError("User not found");
+                
             }
         }
     }

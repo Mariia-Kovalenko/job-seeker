@@ -8,6 +8,8 @@ import IconLightMode from "../icons/IconLightMode";
 import { useState, useEffect } from "react";
 import useWindowResize from "../hooks/useWindowResize";
 import { useUserStore } from "../store/userStore";
+import LogoutIcon from "../icons/Logout";
+import LogoutWhiteIcon from "../icons/LogoutWhite";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
@@ -19,7 +21,7 @@ export default function Header() {
     console.log("user in header", user);
 
     useEffect(() => {
-      setIsOpen(false);
+        setIsOpen(false);
     }, [location]);
 
     const windowWidth = useWindowResize();
@@ -28,21 +30,20 @@ export default function Header() {
 
     // when md width, set isOpen to false
     useEffect(() => {
-      if (windowWidth >= 760) {
-        setIsOpen(false);
-      }
+        if (windowWidth >= 760) {
+            setIsOpen(false);
+        }
     }, [windowWidth]);
 
     const toggleNavigation = () => {
-
-      console.log("isOpen", isOpen);
+        console.log("isOpen", isOpen);
         setIsOpen(!isOpen);
-    }
+    };
 
     const logout = () => {
         useUserStore.getState().logout();
-        navigate('/login');
-    }
+        navigate("/login");
+    };
     return (
         <header
             style={{ zIndex: 100 }}
@@ -54,20 +55,62 @@ export default function Header() {
     }`}
         >
             <div className="header-inner h-full flex items-center justify-between gap-4 px-4 pb-1">
-                <div className="logo">
+                <NavLink to="/">
                     <Logo />
-                </div>
+                </NavLink>
                 <ul
-                // style={{ right: isOpen ? "0px" : "-340px" }}
-                 className={`${isOpen ? "right-0" : "right-[-340px]"} header-navigation shadow-lg md:shadow-none border-l border-l-lighterGrey ${theme == "dark" ? "bg-[#2d2c2c] text-white" : "bg-[#f4f4f4] text-darkBackground"} transition-all duration-300 flex flex-col items-start top-[64px] absolute h-[calc(100vh-64px)] w-[340px] z-100 md:border-none md:w-fit md:flex-row md:bg-transparent md:relative md:top-0 md:right-auto md:h-full md:items-center md:justify-center md:gap-8`}>
-                    {/* <div><Logo /></div> */}
+                    // style={{ right: isOpen ? "0px" : "-340px" }}
+                    className={`${
+                        isOpen ? "right-0" : "right-[-100%] sm:right-[-340px]"
+                    } header-navigation shadow-lg md:shadow-none border-l border-l-lighterGrey ${
+                        theme == "dark"
+                            ? "bg-[#2d2c2c] text-white"
+                            : "bg-white text-darkBackground"
+                    } transition-all duration-300 flex flex-col items-start top-[64px] absolute h-[calc(100vh-64px)] w-[100%] sm:w-[340px] z-100 md:border-none md:w-fit md:flex-row md:bg-transparent md:relative md:top-0 md:right-auto md:h-full md:items-center md:justify-center md:gap-8`}
+                >
+                    {/* mobile profile */}
+                    {user && (
+                        <div className="md:hidden flex items-center justify-between gap-4 px-4 py-8 w-full relative overflow-hidden border-b border-b-lighterGrey/30">
+                            <NavLink
+                                to="/profile"
+                                className="flex items-center gap-4"
+                            >
+                                <img
+                                    src="/profile-default.webp"
+                                    className="rounded-full h-14 w-14 object-cover aspect-square"
+                                />
+                                <div className="flex flex-col items-start justify-start">
+                                    <span className="text-bold text-sm">
+                                        {user.company}
+                                    </span>
+                                    <span className="text-xs opacity-80">
+                                        {user.email}
+                                    </span>
+                                </div>
+                            </NavLink>
 
+                            <button
+                                className="flex items-center justify-center w-10 h-10"
+                                onClick={logout}
+                            >
+                                {theme === "dark" ? <LogoutWhiteIcon className="w-6 h-6" /> : <LogoutIcon className="w-6 h-6" />}
+                            </button>
+                        </div>
+                    )}
                     <NavLink
                         to="/"
                         className={({ isActive }) =>
                             `pl-4 pr-4 py-3 border-l-4 w-full md:w-fit md:border-none
-                            ${isActive ? "text-primary border-primary font-semibold" : "border-transparent"}
-                            ${theme === "dark" && !isActive ? "text-white" : "text-black"}`
+                            ${
+                                isActive
+                                    ? "text-primary border-primary font-semibold"
+                                    : "border-transparent"
+                            }
+                            ${
+                                theme === "dark" && !isActive
+                                    ? "text-white"
+                                    : "text-black"
+                            }`
                         }
                     >
                         Home
@@ -76,8 +119,16 @@ export default function Header() {
                         to="/jobs"
                         className={({ isActive }) =>
                             `pl-4 pr-4 py-3 w-full md:w-fit border-l-4 md:border-none
-                            ${isActive ? "text-primary border-primary font-semibold" : "border-transparent"}
-                            ${theme === "dark" && !isActive ? "text-white" : "text-black"}`
+                            ${
+                                isActive
+                                    ? "text-primary border-primary font-semibold"
+                                    : "border-transparent"
+                            }
+                            ${
+                                theme === "dark" && !isActive
+                                    ? "text-white"
+                                    : "text-black"
+                            }`
                         }
                     >
                         Jobs
@@ -87,55 +138,48 @@ export default function Header() {
                             to="/job-form"
                             className={({ isActive }) =>
                                 `pl-4 pr-4 py-3 w-full md:w-fit border-l-4 md:border-none
-                                ${isActive ? "text-primary border-primary font-semibold" : "border-transparent"}
-                                ${theme === "dark" && !isActive ? "text-white" : "text-black"}`
+                                ${
+                                    isActive
+                                        ? "text-primary border-primary font-semibold"
+                                        : "border-transparent"
+                                }
+                                ${
+                                    theme === "dark" && !isActive
+                                        ? "text-white"
+                                        : "text-black"
+                                }`
                             }
                         >
                             Job Form
                         </NavLink>
                     )}
-
-                    {/* mobile sign in footer */}
-                    <div className="flex flex-col items-start justify-start gap-4 absolute bottom-0 left-0 w-full p-4 md:hidden bg-white/10 backdrop-blur-md">
-                        
-                        {user ? (
-                            <div className="flex items-start justify-start gap-4 w-full">
-                                <NavLink to="/profile" className="flex items-center justify-center w-[50%] h-10 bg-primary text-white px-4 py-2 rounded-full">
-                                    Profile
-                                </NavLink>
-                                <button onClick={logout} className="flex items-center justify-center w-[50%] h-10 border-[1.3px] border-primary text-primary px-4 py-2 rounded-full">
-                                    Logout
-                                </button>
-                            </div>
-                            // <NavLink to="/profile" className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full">
-                            //     {user.email}
-                            // </NavLink>
-                        ) : (
-                            <NavLink to="/login" className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full">
-                                Sign In
-                            </NavLink>
-                        )}
-                    </div>
                 </ul>
-
-                {/* <button
-                    onClick={toggleTheme}
-                    className="theme-toggle-mobile md:hidden"
-                >
-                    <ThemeToggle />
-                </button> */}
 
                 <ul className="header-actions h-full flex items-center justify-start gap-4">
                     {/* login/sign up dropdown */}
                     <div className="relative hidden md:block">
                         {user ? (
-                            <NavLink to="/profile" className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full">
+                            <NavLink
+                                to="/profile"
+                                className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full"
+                            >
                                 Profile
                             </NavLink>
                         ) : (
-                            <NavLink to="/login" className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full">
-                                Sign In
-                            </NavLink>
+                            <div className="flex gap-4">
+                                <NavLink
+                                    to="/register"
+                                    className="flex items-center justify-center w-fit h-10 border border-primary text-primary px-4 py-2 rounded-full"
+                                >
+                                    Register
+                                </NavLink>
+                                <NavLink
+                                    to="/login"
+                                    className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full"
+                                >
+                                    Sign In
+                                </NavLink>
+                            </div>
                         )}
                     </div>
                     <Toggle
@@ -183,40 +227,38 @@ export default function Header() {
                                     />
                                 </svg>
                             )
+                        ) : theme === "dark" ? (
+                            <svg
+                                width="25"
+                                height="25"
+                                viewBox="0 0 25 25"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M3.125 7.8125H21.875M3.125 13.125H21.875M3.125 18.4375H21.875"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
                         ) : (
-                            theme === "dark" ? (
-                                <svg
-                                    width="25"
-                                    height="25"
-                                    viewBox="0 0 25 25"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M3.125 7.8125H21.875M3.125 13.125H21.875M3.125 18.4375H21.875"
-                                        stroke="white"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            ) : (
-                                <svg
-                                    width="25"
-                                    height="25"
-                                    viewBox="0 0 25 25"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M3.125 7.8125H21.875M3.125 13.125H21.875M3.125 18.4375H21.875"
-                                        stroke="black"
-                                        strokeWidth="1.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                            )
+                            <svg
+                                width="25"
+                                height="25"
+                                viewBox="0 0 25 25"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M3.125 7.8125H21.875M3.125 13.125H21.875M3.125 18.4375H21.875"
+                                    stroke="black"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
                         )}
                     </button>
                 </ul>
