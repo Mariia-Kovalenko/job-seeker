@@ -18,7 +18,10 @@ module.exports = {
         blue: '#72DEFF',
         lightGrey: '#232323',
         lighterGrey: '#737373',
-      }
+      },
+      screens: {
+        'smallMobile': '420px',
+      },
     },
   },
   plugins: [],
