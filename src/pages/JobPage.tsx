@@ -175,7 +175,7 @@ export default function JobPage() {
                                         Full Description
                                     </h3>
                                     <p className="text-sm mt-1 opacity-75">
-                                        {data.job.description}
+                                        <div dangerouslySetInnerHTML={{ __html: data.job.description }} />
                                     </p>
                                 </div>
                             </div>
