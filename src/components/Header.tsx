@@ -66,7 +66,7 @@ export default function Header() {
                         theme == "dark"
                             ? "bg-[#2d2c2c] text-white"
                             : "bg-white text-darkBackground"
-                    } transition-all duration-300 flex flex-col items-start top-[64px] absolute h-[calc(100vh-64px)] w-[100%] sm:w-[340px] z-100 md:border-none md:w-fit md:flex-row md:bg-transparent md:relative md:top-0 md:right-auto md:h-full md:items-center md:justify-center md:gap-8`}
+                    } transition-all duration-300 flex flex-col items-start top-[64px] absolute h-[calc(100vh-64px)] w-[100%] sm:w-[340px] z-100 md:border-none md:w-fit md:flex-row md:bg-transparent md:relative md:top-0 md:right-auto md:h-full md:items-center md:justify-center`}
                 >
                     {/* mobile profile */}
                     {user && (

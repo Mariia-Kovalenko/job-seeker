@@ -3,7 +3,7 @@ import { GET_JOBS } from "../graphql/queries";
 import { Job, JobsData } from "../utils/types";
 import JobComponent from "../components/Job";
 import { useState, useEffect } from "react";
-import Loader from "../components/Loader";
+import JobSkeleton from "../components/JobSkeleton";
 import Button from "../common/Button";
 import { PAGE_SIZE } from "../utils/constants";
 import { motion } from "framer-motion";
@@ -118,15 +118,17 @@ export default function Jobs() {
                     clearFilters={handleClearFilters} />
             </div>
             {
-                loading ? 
-                <div className="h-8 py-20">
-                    <Loader />
+                (loading && jobs.length === 0) ? 
+                <div className="max-w-4xl mx-auto px-4 py-8">
+                    <JobSkeleton />
+                    <JobSkeleton />
+                    <JobSkeleton />
                 </div> : (
                     <ul className="max-w-4xl mx-auto px-4 py-8">
-                        {jobs.length === 0 && <p>No jobs found</p>}
+                        {jobs.length === 0 && !loading && <p className="text-center opacity-50 py-10">No jobs found</p>}
                     {jobs.map((job: Job) => (
                         <motion.div
-                            key={job.id}
+                            key={job._id}
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.3 }}
@@ -142,7 +144,7 @@ export default function Jobs() {
             }
            
             {hasNextPage && (
-                <Button loading={loadingMore} onClick={handleLoadMore} center>
+                <Button loading={loadingMore} onClick={handleLoadMore} center className="mb-8">
                     Load More
                 </Button>
             )}

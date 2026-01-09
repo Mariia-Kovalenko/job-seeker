@@ -22,3 +22,35 @@ input:-webkit-autofill{
   -webkit-box-shadow: none !important;
   -webkit-text-fill-color: inherit !important;
 }
+
+
+.swiper.jobs-swiper {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 896px) {
+  .swiper.jobs-swiper {
+    padding-left: calc(((100% - 896px) / 2) + 16px);
+    padding-right: calc(((100% - 896px) / 2) + 16px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .animate-shimmer {
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+}

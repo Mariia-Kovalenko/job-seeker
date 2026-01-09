@@ -8,6 +8,7 @@ import JobForm from './components/JobForm';
 import Home from './pages/Home';
 import { useUserStore } from './store/userStore';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import JobPage from './pages/JobPage';
 
 function App() {
   const user = localStorage.getItem('user');
@@ -29,6 +30,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/job-form" element={<JobForm />} />
+              <Route path="/jobs/:id" element={<JobPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

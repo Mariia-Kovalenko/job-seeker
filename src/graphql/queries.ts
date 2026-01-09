@@ -30,10 +30,18 @@ export const GET_JOBS = gql`
 
 export const GET_JOB = gql`
     query Job($id: ID!) {
-        job(id: $id) {
+        job(_id: $id) {
             _id
             title
             description
+            company
+            location
+            salaryRange
+            shortDescription
+            stack
+            workType
+            category
+            createdAt
         }
     }
 `;
