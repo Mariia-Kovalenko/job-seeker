@@ -134,26 +134,6 @@ export default function Header() {
                         >
                             Jobs
                         </NavLink>
-                        {user && (
-                            <NavLink
-                                to="/job-form"
-                                className={({ isActive }) =>
-                                    `pl-4 pr-4 py-3 w-full md:w-fit border-l-4 md:border-none
-                                    ${
-                                        isActive
-                                            ? "text-primary border-primary font-semibold"
-                                            : "border-transparent"
-                                    }
-                                    ${
-                                        theme === "dark" && !isActive
-                                            ? "text-white"
-                                            : "text-black"
-                                    }`
-                                }
-                            >
-                                Job Form
-                            </NavLink>
-                        )}
                     </div>
 
                     {/* mobile login/register buttons at the bottom */}
