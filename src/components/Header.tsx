@@ -66,76 +66,58 @@ export default function Header() {
                         theme == "dark"
                             ? "bg-[#2d2c2c] text-white"
                             : "bg-white text-darkBackground"
-                    } transition-all duration-300 flex flex-col items-start top-[64px] absolute h-[calc(100vh-64px)] w-[100%] sm:w-[340px] z-100 md:border-none md:w-fit md:flex-row md:bg-transparent md:relative md:top-0 md:right-auto md:h-full md:items-center md:justify-center`}
+                    } transition-all duration-300 flex flex-col justify-between items-start top-[64px] absolute h-[calc(100vh-64px)] w-[100%] sm:w-[340px] z-100 md:border-none md:w-fit md:flex-row md:bg-transparent md:relative md:top-0 md:right-auto md:h-full md:items-center md:justify-center`}
                 >
-                    {/* mobile profile */}
-                    {user && (
-                        <div className="md:hidden flex items-center justify-between gap-4 px-4 py-8 w-full relative overflow-hidden border-b border-b-lighterGrey/30">
-                            <NavLink
-                                to="/profile"
-                                className="flex items-center gap-4"
-                            >
-                                <img
-                                    src="/profile-default.webp"
-                                    className="rounded-full h-14 w-14 object-cover aspect-square"
-                                />
-                                <div className="flex flex-col items-start justify-start">
-                                    <span className="text-bold text-sm">
-                                        {user.company}
-                                    </span>
-                                    <span className="text-xs opacity-80">
-                                        {user.email}
-                                    </span>
-                                </div>
-                            </NavLink>
+                    <div className="flex flex-col w-full md:flex-row md:w-fit md:items-center">
+                        {/* mobile profile */}
+                        {user && (
+                            <div className="md:hidden flex items-center justify-between gap-4 px-4 py-8 w-full relative overflow-hidden border-b border-b-lighterGrey/30">
+                                <NavLink
+                                    to="/profile"
+                                    className="flex items-center gap-4"
+                                >
+                                    <img
+                                        src="/profile-default.webp"
+                                        className="rounded-full h-14 w-14 object-cover aspect-square"
+                                    />
+                                    <div className="flex flex-col items-start justify-start">
+                                        <span className="text-bold text-sm">
+                                            {user.company}
+                                        </span>
+                                        <span className="text-xs opacity-80">
+                                            {user.email}
+                                        </span>
+                                    </div>
+                                </NavLink>
 
-                            <button
-                                className="flex items-center justify-center w-10 h-10"
-                                onClick={logout}
-                            >
-                                {theme === "dark" ? <LogoutWhiteIcon className="w-6 h-6" /> : <LogoutIcon className="w-6 h-6" />}
-                            </button>
-                        </div>
-                    )}
-                    <NavLink
-                        to="/"
-                        className={({ isActive }) =>
-                            `pl-4 pr-4 py-3 border-l-4 w-full md:w-fit md:border-none
-                            ${
-                                isActive
-                                    ? "text-primary border-primary font-semibold"
-                                    : "border-transparent"
-                            }
-                            ${
-                                theme === "dark" && !isActive
-                                    ? "text-white"
-                                    : "text-black"
-                            }`
-                        }
-                    >
-                        Home
-                    </NavLink>
-                    <NavLink
-                        to="/jobs"
-                        className={({ isActive }) =>
-                            `pl-4 pr-4 py-3 w-full md:w-fit border-l-4 md:border-none
-                            ${
-                                isActive
-                                    ? "text-primary border-primary font-semibold"
-                                    : "border-transparent"
-                            }
-                            ${
-                                theme === "dark" && !isActive
-                                    ? "text-white"
-                                    : "text-black"
-                            }`
-                        }
-                    >
-                        Jobs
-                    </NavLink>
-                    {user && (
+                                <button
+                                    className="flex items-center justify-center w-10 h-10"
+                                    onClick={logout}
+                                >
+                                    {theme === "dark" ? <LogoutWhiteIcon className="w-6 h-6" /> : <LogoutIcon className="w-6 h-6" />}
+                                </button>
+                            </div>
+                        )}
                         <NavLink
-                            to="/job-form"
+                            to="/"
+                            className={({ isActive }) =>
+                                `pl-4 pr-4 py-3 border-l-4 w-full md:w-fit md:border-none
+                                ${
+                                    isActive
+                                        ? "text-primary border-primary font-semibold"
+                                        : "border-transparent"
+                                }
+                                ${
+                                    theme === "dark" && !isActive
+                                        ? "text-white"
+                                        : "text-black"
+                                }`
+                            }
+                        >
+                            Home
+                        </NavLink>
+                        <NavLink
+                            to="/jobs"
                             className={({ isActive }) =>
                                 `pl-4 pr-4 py-3 w-full md:w-fit border-l-4 md:border-none
                                 ${
@@ -150,12 +132,60 @@ export default function Header() {
                                 }`
                             }
                         >
-                            Job Form
+                            Jobs
                         </NavLink>
+                        {user && (
+                            <NavLink
+                                to="/job-form"
+                                className={({ isActive }) =>
+                                    `pl-4 pr-4 py-3 w-full md:w-fit border-l-4 md:border-none
+                                    ${
+                                        isActive
+                                            ? "text-primary border-primary font-semibold"
+                                            : "border-transparent"
+                                    }
+                                    ${
+                                        theme === "dark" && !isActive
+                                            ? "text-white"
+                                            : "text-black"
+                                    }`
+                                }
+                            >
+                                Job Form
+                            </NavLink>
+                        )}
+                    </div>
+
+                    {/* mobile login/register buttons at the bottom */}
+                    {!user && (
+                        <div className="md:hidden flex flex-col gap-3 px-4 py-8 w-full border-t border-t-lighterGrey/30 bg-primary/5">
+                            <div className="flex flex-col mb-1">
+                                <span className="text-primary font-bold text-sm">Are you hiring?</span>
+                                <span className={`text-[11px] opacity-60 ${theme === 'dark' ? 'text-white' : 'text-darkBackground'}`}>
+                                    Post jobs and find your next candidate
+                                </span>
+                            </div>
+                            <NavLink
+                                to="/register"
+                                className="flex items-center justify-center w-full h-12 bg-primary text-white rounded-xl font-bold transition-transform active:scale-95"
+                            >
+                                Start Hiring
+                            </NavLink>
+                            <NavLink
+                                to="/login"
+                                className={`flex items-center justify-center w-full h-12 border rounded-xl font-bold transition-all active:scale-95 ${
+                                    theme === "dark" 
+                                    ? "border-white/30 text-white hover:bg-white/5" 
+                                    : "border-gray-400 text-darkBackground hover:bg-gray-50"
+                                }`}
+                            >
+                                Sign In
+                            </NavLink>
+                        </div>
                     )}
                 </ul>
 
-                <ul className="header-actions h-full flex items-center justify-start gap-4">
+                <ul className="header-actions h-full flex items-center justify-end gap-2 md:gap-4 flex-grow md:flex-grow-0">
                     {/* login/sign up dropdown */}
                     <div className="relative hidden md:block">
                         {user ? (
@@ -166,19 +196,21 @@ export default function Header() {
                                 Profile
                             </NavLink>
                         ) : (
-                            <div className="flex gap-4">
-                                <NavLink
-                                    to="/register"
-                                    className="flex items-center justify-center w-fit h-10 border border-primary text-primary px-4 py-2 rounded-full"
-                                >
-                                    Register
-                                </NavLink>
-                                <NavLink
-                                    to="/login"
-                                    className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full"
-                                >
-                                    Sign In
-                                </NavLink>
+                            <div className="flex flex-col items-end">
+                                <div className="flex gap-4">
+                                    <NavLink
+                                        to="/register"
+                                        className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors"
+                                    >
+                                        Start Hiring
+                                    </NavLink>
+                                    {/* <NavLink
+                                        to="/login"
+                                        className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors shadow-md shadow-primary/20"
+                                    >
+                                        Sign In
+                                    </NavLink> */}
+                                </div>
                             </div>
                         )}
                     </div>

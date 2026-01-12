@@ -3,14 +3,14 @@ import { gql } from "@apollo/client";
 export const ADD_JOB = gql`
   mutation AddJob(
     $title: String!,
-    $shortDescription: String,
+    $shortDescription: String!,
     $description: String!,
     $company: String!,
     $location: String,
     $salaryRange: String,
     $stack: [String],
     $category: [String]!,
-    $workType: String
+    $workType: String!
   ) {
     addJob(
       title: $title,
@@ -25,11 +25,60 @@ export const ADD_JOB = gql`
     ) {
       _id
       title
+      shortDescription
       description
+      company
+      location
+      salaryRange
+      stack
+      category
+      workType
+      createdAt
+      updatedAt
     }
   }
 `;
 
+export const UPDATE_JOB = gql`
+  mutation UpdateJob(
+    $_id: ID!,
+    $title: String,
+    $shortDescription: String,
+    $description: String,
+    $company: String,
+    $location: String,
+    $salaryRange: String,
+    $stack: [String],
+    $category: [String],
+    $workType: String
+  ) {
+    updateJob(
+      _id: $_id,
+      title: $title,
+      shortDescription: $shortDescription,
+      description: $description,
+      company: $company,
+      location: $location,
+      salaryRange: $salaryRange,
+      stack: $stack,
+      category: $category,
+      workType: $workType
+    ) {
+      _id
+      title
+      shortDescription
+      description
+      company
+      location
+      salaryRange
+      stack
+      category
+      workType
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
 
 export const LOGIN = gql`
@@ -68,4 +117,12 @@ export const CREATE_USER = gql`
             email, companyName,
         }
     }
+`;
+
+export const DELETE_JOB = gql`
+  mutation DeleteJob($id: ID!) {
+    deleteJob(id: $id) {
+      _id
+    }
+  }
 `;

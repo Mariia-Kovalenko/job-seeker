@@ -45,3 +45,31 @@ export const GET_JOB = gql`
         }
     }
 `;
+
+export const MY_JOBS = gql`
+    query JobsByUser($first: Int, $after: String) {
+        jobsByUser(first: $first, after: $after) {
+            edges {
+                node {
+                    _id
+                    company
+                    createdAt
+                    description
+                    location
+                    salaryRange
+                    shortDescription
+                    stack
+                    title
+                    updatedAt
+                    workType
+                    category
+                }
+                cursor
+            }
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
+        }
+    }
+`;

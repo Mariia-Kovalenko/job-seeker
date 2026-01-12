@@ -129,7 +129,7 @@ export default function JobsSearch({
                     onClick={handleClearFilters}
                     className={`h-11 rounded-full shrink-0 border-[1.3px] ${
                         theme == "dark" ? "border-white" : "border-gray-500"
-                    } text-sm px-4 py-2 flex items-center justify-center gap-2 disabled:opacity-50`}
+                    } text-sm px-2 md:px-4 py-2 flex items-center justify-center gap-1 md:gap-2 disabled:opacity-50`}
                     disabled={
                         !form.values.search &&
                         !form.values.location &&
@@ -165,7 +165,7 @@ export default function JobsSearch({
                             />
                         </svg>
                     )}
-                    <span className="text-sm hidden sm:block">Clear All</span>
+                    <span className="text-sm">Clear All</span>
                 </button>
             </div>
 

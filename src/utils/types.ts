@@ -25,6 +25,18 @@ type JobsData = {
         };
     };
 }
+type UserJobsData = {
+    jobsByUser: {
+        edges: {
+            node: Job;
+            cursor: string;
+        }[];
+        pageInfo: {
+            hasNextPage: boolean;
+            endCursor: string;
+        };
+    };
+}
 
 type User = {
     email: string;
@@ -32,4 +44,4 @@ type User = {
     company?: string;
 }
 
-export type { Job, JobsData, User };
+export type { Job, JobsData, User, UserJobsData };

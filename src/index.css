@@ -54,3 +54,18 @@ input:-webkit-autofill{
   background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
   background-size: 200% 100%;
 }
+
+
+
+.scrollable::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #bababa;
+  border-radius: 100px;
+}
+
+.scrollable::-webkit-scrollbar-track-piece {
+  margin-top: 31px;
+}

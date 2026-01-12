@@ -4,7 +4,6 @@ import PageLayout from './layout/PageLayout';
 import Jobs from './pages/Jobs';
 import { Login } from './components/Login';
 import { Register } from './components/Register';
-import JobForm from './components/JobForm';
 import Home from './pages/Home';
 import { useUserStore } from './store/userStore';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -30,7 +29,6 @@ function App() {
               <Route path="/jobs" element={<Jobs />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/job-form" element={<JobForm />} />
               <Route path="/jobs/:id" element={<JobPage />} />
               <Route path="/profile" element={<Profile />} />
             </Route>

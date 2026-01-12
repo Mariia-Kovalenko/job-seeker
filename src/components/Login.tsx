@@ -102,9 +102,9 @@ export const Login = () => {
             if (errors) {
                 throw new Error(errors[0].message);
             }
-            const { email, newToken, companyName } = data.googleLogin;
+            const { email, jwt_token, companyName } = data.googleLogin;
 
-            setUser({ email: email, token: newToken, company: companyName });
+            setUser({ email: email, token: jwt_token, company: companyName });
             navigate("/jobs");
         } catch (err: any) {
             console.log('error', err);
