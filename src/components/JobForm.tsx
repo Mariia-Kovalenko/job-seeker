@@ -7,6 +7,7 @@ import { useTheme } from "../context/ThemeContext";
 import { SUGGESTED_CATEGORIES } from "../utils/constants";
 import { useUserStore } from "../store/userStore";
 import { Job } from "../utils/types";
+import RichTextInput from "../common/RichTextInput";
 
 type JobFormProps = {
     setAddJobModalOpen?: (open: boolean) => void;
@@ -160,7 +161,7 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
 
                 <fieldset className="w-full flex flex-col gap-2 items-start col-span-2">
                     <label className="text-sm font-semibold" htmlFor="description">Description *</label>
-                    <textarea
+                    {/* <textarea
                         id="description"
                         name="description"
                         onChange={formik.handleChange}
@@ -174,7 +175,12 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
                                 ? "text-white bg-lightGrey border-gray-300"
                                 : "text-darkBackground bg-white border-lighterGrey"
                         }`}
-                    ></textarea>
+                    ></textarea> */}
+
+                    <RichTextInput
+                        onChange={(value) => formik.setFieldValue("description", value)}
+                        value={formik.values.description}
+                     />
                 </fieldset>
 
                 <fieldset className="w-full flex flex-col gap-2 items-start col-span-2">

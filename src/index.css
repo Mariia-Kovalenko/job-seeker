@@ -69,3 +69,25 @@ input:-webkit-autofill{
 .scrollable::-webkit-scrollbar-track-piece {
   margin-top: 31px;
 }
+
+.contenteditable h1 {
+  font-size: 24px;
+}
+.contenteditable h2 {
+  font-size: 20px;
+}
+.contenteditable h3 {
+  font-size: 18px;
+}
+
+/* do apply list style to the contenteditable */
+.contenteditable ul, ol {
+  margin-left: 20px;
+  
+}
+.contenteditable ul {
+  list-style-type: disc;
+}
+.contenteditable ol {
+  list-style-type: decimal;
+}

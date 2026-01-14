@@ -1,6 +1,7 @@
 import React from 'react';
 import IntroSection from '../components/IntroSection';
 import { useTheme } from '../context/ThemeContext';
+import RichTextInput from '../common/RichTextInput';
 
 export default function Home() {
     const { theme } = useTheme();
