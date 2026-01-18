@@ -125,7 +125,7 @@ export default function RichTextInput({ onChange, value }: RichTextInputProps) {
             e.preventDefault();
             applyFormat("formatBlock", e.target.value);
           }}
-          className="ml-2 p-1 border rounded"
+          className="ml-2 p-1 border border-lighterGrey rounded bg-transparent"
         >
           <option value="p">P</option>
           <option value="h1">H1</option>

@@ -6,6 +6,7 @@ import TimeIconLight from "../icons/TimeIconLight";
 import LocationIconLight from "../icons/LocationIconLight";
 import { daysAgo } from "../helpers";
 import { useUserStore } from "../store/userStore";
+import Avatar from "../common/Avatar";
 
 export default function JobComponent({
     job,
@@ -115,10 +116,10 @@ export default function JobComponent({
             >
                 <div className="flex items-center justify-between w-full">
                     {job.category.length > 0 && (
-                        <div className="text-sm flex items-center gap-2">
+                        <div className="text-sm flex flex-wrap items-center gap-2">
                             {job.category.map((category) => (
                                 <span
-                                    className={`mr-2 text-[0.75rem] inline-block py-1 px-2 rounded-full font-medium ${
+                                    className={`text-xs inline-block py-1 px-2 rounded-full font-medium ${
                                         theme === "dark"
                                             ? "bg-secondaryYellow text-black"
                                             : "bg-secondaryYellow/40 text-[#CD6337]"
@@ -145,11 +146,7 @@ export default function JobComponent({
 
                 <div className="text-left w-full flex gap-4">
                     <div className="flex-shrink-0">
-                        <img
-                            src="/default-logo.png"
-                            alt="Company"
-                            className="w-12 h-12 rounded-full border-none"
-                        />
+                        {job.company && <Avatar companyName={job.company} size="12" />}
                     </div>
                     <div className="flex flex-col">
                         <h2 className="text-lg font-bold">{job.title}</h2>

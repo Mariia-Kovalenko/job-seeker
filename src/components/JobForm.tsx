@@ -36,7 +36,7 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
             workType: job?.workType || ""
         },
         onSubmit: async (values) => {
-            console.log('user token for post job', user?.token);
+            console.log('description value', values.description);
 
             const variables = {
                 ...values,
@@ -90,7 +90,7 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
 
     return (
         <div className="relative">
-            <div className={`sticky top-[-32px] md:top-[-64px] ${theme === "dark" ? "bg-lightGrey" : "bg-white"} z-10 pt-4 pb-2`}>
+            <div className={`sticky top-0 ${theme === "dark" ? "bg-lightGrey" : "bg-white"} z-10 pt-4 pb-2`}>
                 <h1 className="text-2xl font-bold mb-4 text-primary">
                     {modalMode === "edit" ? "Update Job" : "Add Job"}
                 </h1>

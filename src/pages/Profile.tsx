@@ -14,6 +14,8 @@ import JobComponent from "../components/Job";
 import { PAGE_SIZE } from "../utils/constants";
 import JobDetails from "../components/JobDetails";
 import Modal from "../common/Modal";
+import Avatar from "../common/Avatar";
+import {isTokenExpired} from '../utils/jwtUtils';
 
 export default function Profile() {
     const user = useUserStore((state) => state.user);
@@ -132,21 +134,6 @@ export default function Profile() {
         console.log("view job details", id);
     };
 
-    const getAvatarContent = () => {
-        const initial = user?.company?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || "?";
-        const colors = [
-            "#3b82f6", "#8b5cf6", "#ec4899", "#6366f1", 
-            "#06b6d4", "#10b981", "#f59e0b", "#f97316",
-            "#f43f5e", "#a855f7"
-        ];
-        // Deterministic color based on the email/name
-        const charCodeSum = (user?.email || "").split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-        const bgColor = colors[charCodeSum % colors.length];
-        
-        return { initial, bgColor };
-    };
-
-    const { initial, bgColor } = getAvatarContent();
 
     return (
         <>
@@ -157,12 +144,7 @@ export default function Profile() {
                 <div className={`p-4 md:p-6 rounded-2xl border mb-8 flex flex-col sm:flex-row items-center gap-4 md:gap-6 ${
                     theme === "dark" ? "bg-lightGrey border-lighterGrey/30" : "bg-white border-gray-200 shadow-sm"
                 }`}>
-                    <div 
-                        className={`rounded-full h-16 w-16 md:h-20 md:w-20 flex items-center justify-center text-white text-2xl md:text-3xl font-bold border-2 border-primary/20 shrink-0`}
-                        style={{ backgroundColor: bgColor }}
-                    >
-                        {initial}
-                    </div>
+                    {user && <Avatar user={user} />}
                     <div className="flex-grow text-center sm:text-left overflow-hidden w-full">
                         <h2 className="text-xl font-bold truncate">{user?.company || "Company Name"}</h2>
                         <p className="opacity-60 text-sm md:text-base truncate">{user?.email}</p>
@@ -252,7 +234,7 @@ export default function Profile() {
                             className={`flex-1 !bg-transparent border ${
                                 theme === 'dark' 
                                     ? 'border-white/10 text-white hover:bg-white/5'
-                                    : 'border-gray-200 text-gray-900 hover:bg-gray-50'
+                                    : 'border-gray-200 !text-gray-900 hover:bg-gray-50'
                             }`}
                         >
                             Cancel

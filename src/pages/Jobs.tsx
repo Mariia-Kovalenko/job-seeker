@@ -7,37 +7,47 @@ import JobSkeleton from "../components/JobSkeleton";
 import Button from "../common/Button";
 import { PAGE_SIZE } from "../utils/constants";
 import { motion } from "framer-motion";
-import { SearchIcon } from "../icons/SearchIcon";
 import { useTheme } from "../context/ThemeContext";
-import { FilterIcon } from "../icons/FilterIcon";
-import { CATEGORIES } from '../utils/constants';
+import { CATEGORIES } from "../utils/constants";
 import JobsSearch from "../components/JobsSearch";
+import { useSearchParams } from "react-router-dom";
+import ErrorComponent from "../common/Error";
 
 export default function Jobs() {
+    const [searchParams] = useSearchParams();
+    const categoryFromUrl = searchParams.get("category");
+    console.log("search param", categoryFromUrl);
+
+    const initialCategory = categoryFromUrl ?? "";
     // filters
     const [filters, setFilters] = useState({
-        search: '',
-        location: '',
-        workType: '',
-        categories: '',
+        search: "",
+        location: "",
+        workType: "",
+        categories: initialCategory,
     });
 
     // query for jobs
-    const { data, loading, error, fetchMore, refetch } = useQuery<JobsData>(GET_JOBS, {
-        variables: {
-            search: filters.search,
-            location: filters.location,
-            workType: filters.workType,
-            categories: filters.categories ? [filters.categories] : [],
-            first: PAGE_SIZE,
-            after: null,
-        },
-    });
+    const { data, loading, error, fetchMore, refetch } = useQuery<JobsData>(
+        GET_JOBS,
+        {
+            variables: {
+                search: filters.search,
+                location: filters.location,
+                workType: filters.workType,
+                categories: filters.categories ? [filters.categories] : [],
+                first: PAGE_SIZE,
+                after: null,
+            },
+        }
+    );
 
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loadingMore, setLoadingMore] = useState<boolean>(false);
     const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-    const [activeCategory, setActiveCategory] = useState<string>('All');
+    const [activeCategory, setActiveCategory] = useState<string>(
+        initialCategory || "All"
+    );
     const { theme } = useTheme();
 
     useEffect(() => {
@@ -48,7 +58,11 @@ export default function Jobs() {
             }
             setHasNextPage(data.jobs.pageInfo.hasNextPage);
         }
-    }, [data]);
+
+        if (error) {
+            setJobs([]);
+        }
+    }, [data, error]);
 
     useEffect(() => {
         console.log("filters updated", loading);
@@ -60,15 +74,15 @@ export default function Jobs() {
             first: PAGE_SIZE,
             after: null,
         })
-        .then(response => {
-            console.log("Refetch response:", response);
-            if (response.data) {
-                setJobs(response.data.jobs.edges.map(({ node }) => node));
-            }
-        })
-        .catch(err => {
-            console.error("Refetch error:", err);
-        });
+            .then((response) => {
+                console.log("Refetch response:", response);
+                if (response.data) {
+                    setJobs(response.data.jobs.edges.map(({ node }) => node));
+                }
+            })
+            .catch((err) => {
+                console.error("Refetch error:", err);
+            });
     }, [filters, refetch]);
 
     const handleLoadMore = async () => {
@@ -100,10 +114,10 @@ export default function Jobs() {
 
     const handleClearFilters = () => {
         setFilters({
-            search: '',
-            location: '',
-            workType: '',
-            categories: '',
+            search: "",
+            location: "",
+            workType: "",
+            categories: "",
         });
     };
 
@@ -111,21 +125,26 @@ export default function Jobs() {
         <div>
             {/* filter form */}
             <div className="max-w-4xl mx-auto px-4 pt-8 pb-2">
-                <JobsSearch 
-                    activeCategory={activeCategory} 
+                <JobsSearch
+                    activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
-                    onSubmit={handleFilterSubmit} 
-                    clearFilters={handleClearFilters} />
+                    onSubmit={handleFilterSubmit}
+                    clearFilters={handleClearFilters}
+                />
             </div>
-            {
-                (loading && jobs.length === 0) ? 
+            {loading || (loading && jobs.length === 0) ? (
                 <div className="max-w-4xl mx-auto px-4 py-8">
                     <JobSkeleton />
                     <JobSkeleton />
                     <JobSkeleton />
-                </div> : (
-                    <ul className="max-w-4xl mx-auto px-4 py-8">
-                        {jobs.length === 0 && !loading && <p className="text-center opacity-50 py-10">No jobs found</p>}
+                </div>
+            ) : (
+                <ul className="max-w-4xl mx-auto px-4 py-8">
+                    {jobs.length === 0 && !loading && (
+                        <p className="text-center opacity-50 py-10">
+                            No jobs found
+                        </p>
+                    )}
                     {jobs.map((job: Job) => (
                         <motion.div
                             key={job._id}
@@ -137,14 +156,16 @@ export default function Jobs() {
                         </motion.div>
                     ))}
                 </ul>
-                )
-            }
-            {
-                error && <p>Error :</p>
-            }
-           
+            )}
+            {error && <ErrorComponent message="An error occured"/>}
+
             {hasNextPage && (
-                <Button loading={loadingMore} onClick={handleLoadMore} center className="mb-8">
+                <Button
+                    loading={loadingMore}
+                    onClick={handleLoadMore}
+                    center
+                    className="mb-8"
+                >
                     Load More
                 </Button>
             )}

@@ -83,7 +83,7 @@ export default function IntroSection() {
 
             {/* categories */}
             <motion.div
-                className="flex flex-wrap gap-4 mt-12 md:mt-2 justify-center"
+                className="flex flex-wrap gap-4 mt-12 md:mt-8 justify-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
@@ -96,8 +96,10 @@ export default function IntroSection() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.4 + idx * 0.1 }}
                     >
+                        <Link to={`/jobs?category=${encodeURIComponent(category.name)}`}>
                         <span>{category.icon}</span>
                         <span>{category.name}</span>
+                        </Link>
                     </motion.div>
                 ))}
             </motion.div>

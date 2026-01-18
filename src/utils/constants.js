@@ -36,3 +36,41 @@ export const CATEGORIES = [
   { name: 'Marketing', icon: '📈' },
   { name: 'Accounting', icon: '📊' }
 ];
+
+export const TESTIMONIALS = [
+  {
+    id: 1,
+    text:
+      "Thanks to this platform, I found a frontend role that perfectly matched my skills in less than two weeks. The filters actually work.",
+    name: "Olivia Carter",
+    position: "Frontend Developer",
+  },
+  {
+    id: 2,
+    text:
+      "As a hiring manager, I was impressed by the quality of candidates coming from this platform. It saves an incredible amount of time.",
+    name: "Daniel Moore",
+    position: "CTO at FinTech Startup",
+  },
+  {
+    id: 3,
+    text:
+      "I switched careers into tech and landed my first junior role here. The category-based search made everything much clearer.",
+    name: "Emily Nguyen",
+    position: "Junior React Developer",
+  },
+  {
+    id: 4,
+    text:
+      "We filled two open positions faster than ever. This is now our go-to platform for tech hiring.",
+    name: "Michael Thompson",
+    position: "HR Lead",
+  },
+  {
+    id: 5,
+    text:
+      "Clean UI, relevant jobs, no spam. I finally feel like the platform is built for developers, not recruiters.",
+    name: "Sophia Martinez",
+    position: "Full-Stack Engineer",
+  },
+];

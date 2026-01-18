@@ -4,6 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 import { daysAgo } from "../helpers";
 import TimeIcon from "../icons/TimeIcon";
 import TimeIconLight from "../icons/TimeIconLight";
+import Avatar from "../common/Avatar";
 
 type JobDetailsProps = {
     job: Job;
@@ -31,11 +32,12 @@ export default function JobDetails({ job, isInModal }: JobDetailsProps) {
                 {/* title */}
                 <div className={`${isInModal ? "mt-10": ""} text-left w-full flex gap-4`}>
                     <div className="flex-shrink-0">
-                        <img
+                        {job.company && <Avatar companyName={job.company} size="12px" />}
+                        {/* <img
                             src="/default-logo.png"
                             alt="Company"
                             className="w-12 h-12 rounded-full border-none"
-                        />
+                        /> */}
                     </div>
                     <div className="flex flex-col w-full">
                         <div className="flex items-center justify-between w-full">
