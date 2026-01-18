@@ -23,6 +23,8 @@ export default function TestimonialsMarquee() {
 
     const startAnimation = () => {
         if (!trackRef.current) return;
+
+        console.log('restart with duration', duration)
     
         const trackWidth = trackRef.current.scrollWidth / 2;
         const currentX = x.get(); 
@@ -71,7 +73,7 @@ export default function TestimonialsMarquee() {
                 transition={{ duration: 0.6 }}
                 className="flex-1"
                 >
-                <h2 className="max-w-7xl mx-auto font-semibold text-center text-2xl md:text-3xl mb-6">What our <span className="text-primary">clients</span> say</h2>
+                <h2 className="max-w-7xl mx-auto font-semibold text-center text-3xl md:text-4xl mb-8">What our <span className="text-primary">clients</span> say</h2>
             </motion.div>
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
