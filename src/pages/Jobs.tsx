@@ -14,18 +14,18 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import ErrorComponent from "../common/Error";
 
 export default function Jobs() {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const categoryFromUrl = searchParams.get("category");
-    console.log("search param", categoryFromUrl);
-
     const initialCategory = categoryFromUrl ?? "";
+
+    const initialFilters = {
+        search: searchParams.get("search") || "",
+        location: searchParams.get("location") || "",
+        workType: searchParams.get("workType") || "",
+        categories: searchParams.get("category") || "",
+    };
     // filters
-    const [filters, setFilters] = useState({
-        search: "",
-        location: "",
-        workType: "",
-        categories: initialCategory,
-    });
+    const [filters, setFilters] = useState(initialFilters);
 
     // query for jobs
     const { data, loading, error, fetchMore, refetch } = useQuery<JobsData>(
@@ -67,6 +67,18 @@ export default function Jobs() {
     }, [data, error]);
 
     useEffect(() => {
+        const params = new URLSearchParams();
+    
+        if (filters.search) params.set("search", filters.search);
+        if (filters.location) params.set("location", filters.location);
+        if (filters.workType) params.set("workType", filters.workType);
+        if (filters.categories) params.set("category", filters.categories);
+    
+        console.log('set search params')
+        // Update the URL without adding a new history entry
+        setSearchParams(params, { replace: true });
+    
+        // Refetch jobs whenever filters change
         refetch({
             search: filters.search,
             location: filters.location,
@@ -74,17 +86,33 @@ export default function Jobs() {
             categories: filters.categories ? [filters.categories] : [],
             first: PAGE_SIZE,
             after: null,
-        })
-            .then((response) => {
-                console.log("Refetch response:", response);
-                if (response.data) {
-                    setJobs(response.data.jobs.edges.map(({ node }) => node));
-                }
-            })
-            .catch((err) => {
-                console.error("Refetch error:", err);
-            });
-    }, [filters, refetch]);
+        }).then((response) => {
+            if (response.data) {
+                setJobs(response.data.jobs.edges.map(({ node }) => node));
+            }
+        });
+    }, [filters, refetch, setSearchParams]);
+    
+
+    // useEffect(() => {
+    //     refetch({
+    //         search: filters.search,
+    //         location: filters.location,
+    //         workType: filters.workType,
+    //         categories: filters.categories ? [filters.categories] : [],
+    //         first: PAGE_SIZE,
+    //         after: null,
+    //     })
+    //         .then((response) => {
+    //             console.log("Refetch response:", response);
+    //             if (response.data) {
+    //                 setJobs(response.data.jobs.edges.map(({ node }) => node));
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.error("Refetch error:", err);
+    //         });
+    // }, [filters, refetch]);
 
     const handleLoadMore = async () => {
         console.log("handleLoadMore");

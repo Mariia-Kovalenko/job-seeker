@@ -8,7 +8,7 @@ export default function PageLayout() {
   return (
     <div
     className={`min-h-[100vh] h-full overflow-x-hidden pt-[64px] ${
-        theme == "dark" ? "bg-darkBackground text-white" : "bg-white text-darkBackground"
+        theme == "dark" ? "dark bg-darkBackground text-white" : "bg-white text-darkBackground"
     }`}
     >
       <Header />

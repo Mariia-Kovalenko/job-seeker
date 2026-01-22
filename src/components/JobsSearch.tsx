@@ -62,9 +62,9 @@ export default function JobsSearch({
         <form className="relative" onSubmit={form.handleSubmit}>
             <div className="flex items-center gap-2 md:gap-4">
                 <fieldset
-                    className={`h-13 w-full flex items-center relative rounded-full border-[1.3px] ${
+                    className={`h-14 w-full flex items-center relative rounded-full border-[1.3px] ${
                         theme == "dark" ? "border-white" : "border-gray-500"
-                    } pl-12`}
+                    } pl-14`}
                 >
                     <input
                         type="text"
@@ -117,7 +117,7 @@ export default function JobsSearch({
                     {/* submit search button */}
                     <button
                         type="submit"
-                        className="absolute left-2 top-[50%] translate-y-[-50%] h-8 w-8 rounded-full shrink-0 bg-primary text-white flex items-center justify-center"
+                        className="absolute left-2 top-[50%] translate-y-[-50%] h-10 w-10 rounded-full shrink-0 bg-primary text-white flex items-center justify-center"
                     >
                         <SearchIconLight className="shrink-0" />
                     </button>
@@ -127,7 +127,7 @@ export default function JobsSearch({
                 <button
                     type="button"
                     onClick={handleClearFilters}
-                    className={`h-11 rounded-full shrink-0 border-[1.3px] ${
+                    className={`h-14 rounded-full shrink-0 border-[1.3px] ${
                         theme == "dark" ? "border-white" : "border-gray-500"
                     } text-sm px-2 md:px-4 py-2 flex items-center justify-center gap-1 md:gap-2 disabled:opacity-50`}
                     disabled={
@@ -367,7 +367,7 @@ export default function JobsSearch({
                     <button
                         type="submit"
                         className="h-11 w-full smallMobile:w-fit px-6 shrink-0 rounded-full bg-primary text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={!form.values.search && !form.values.location && !form.values.workType}
+                        disabled={!form.dirty}
                     >
                         Apply
                     </button>

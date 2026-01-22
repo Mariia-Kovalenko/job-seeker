@@ -99,7 +99,7 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
             <p className={`text-md font-medium ${theme === "dark" ? "text-white" : "text-gray-500"} mb-2`}>Create a new job listing by filling out the details below.</p>
                 <div className={`text-sm ${theme === "dark" ? "text-white" : "text-gray-500"} mb-10`}>Ensure all required fields are filled out accurately.</div>
 
-            <form onSubmit={formik.handleSubmit} className="md:grid md:grid-cols-2 md:gap-6 flex flex-col gap-6 items-start mb-8">
+            <form onSubmit={formik.handleSubmit} className={`md:grid md:grid-cols-2 md:gap-6 flex flex-col gap-6 items-start mb-8`}>
                 <fieldset className="w-full flex flex-col gap-2 items-start">
                     <label className="text-sm font-semibold" htmlFor="title">Title *</label>
                     <input
