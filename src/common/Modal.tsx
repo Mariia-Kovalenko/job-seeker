@@ -6,6 +6,7 @@ type ModalProps = {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
+    title?: string;
     maxWidth?: string;
     padding?: string;
 };
@@ -14,6 +15,7 @@ export default function Modal({
     isOpen, 
     onClose, 
     children, 
+    title,
     maxWidth = "max-w-2xl",
     padding = "p-2 md:p-4"
 }: ModalProps) {
@@ -54,16 +56,24 @@ export default function Modal({
                         } rounded-2xl w-full ${maxWidth} max-h-[90vh] overflow-y-auto scrollable shadow-2xl relative`}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <button
-                            className={`absolute top-4 right-4 z-50 flex items-center justify-center w-10 h-10 rounded-full border transition-all ${
-                                theme === "dark" 
-                                ? "text-white/40 border-white/10 hover:bg-white/5" 
-                                : "text-gray-500 border-gray-200 hover:bg-gray-50"
-                            }`}
-                            onClick={onClose}
-                        >
-                            ✕
-                        </button>
+                        <div className={`sticky top-0 ${theme === "dark" ? "bg-lightGrey" : "bg-white"} z-10`}>
+                            {title &&
+                                <h1 className="text-2xl font-bold mb-4 pt-4 pb-2 pl-4 text-primary">
+                                    {title}
+                                </h1>
+                            }
+                                <button
+                                className={`absolute top-4 right-4 z-50 flex items-center justify-center w-10 h-10 rounded-full border transition-all ${
+                                    theme === "dark" 
+                                    ? "text-white/40 border-white/10 hover:bg-white/5" 
+                                    : "text-gray-500 border-gray-200 hover:bg-gray-50"
+                                }`}
+                                onClick={onClose}
+                                >
+                                    ✕
+                                </button>
+                        </div>
+                       
                         <div className={padding}>
                             {children}
                         </div>

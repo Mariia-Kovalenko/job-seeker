@@ -214,7 +214,11 @@ export default function Profile() {
             </div>
 
             {/* add/edit job modal */}
-            <Modal isOpen={addJobModalOpen} onClose={closeModal}>
+            <Modal 
+                isOpen={addJobModalOpen} 
+                onClose={closeModal} 
+                title={modalMode == "add" ? "Add Job": "Edit Job"}
+            >
                 <JobForm
                     modalMode={modalMode}
                     setModalMode={setModalMode}
@@ -229,7 +233,11 @@ export default function Profile() {
             </Modal>
 
             {/* delete confirmation modal */}
-            <Modal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(false)} maxWidth="max-w-md">
+            <Modal 
+                isOpen={deleteModalOpen} 
+                onClose={() => setDeleteModalOpen(false)} 
+                maxWidth="max-w-md"
+                >
                 <div className="flex flex-col items-center text-center">
                     <h3 className="text-xl font-bold mb-2">Delete Job?</h3>
                     <p className={`mb-8 opacity-70 ${theme === 'dark' ? 'text-white' : 'text-darkBackground'}`}>

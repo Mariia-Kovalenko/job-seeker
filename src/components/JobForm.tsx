@@ -90,11 +90,11 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
 
     return (
         <div className="relative">
-            <div className={`sticky top-0 ${theme === "dark" ? "bg-lightGrey" : "bg-white"} z-10 pt-4 pb-2`}>
+            {/* <div className={`sticky top-0 ${theme === "dark" ? "bg-lightGrey" : "bg-white"} z-10 pt-4 pb-2`}>
                 <h1 className="text-2xl font-bold mb-4 text-primary">
                     {modalMode === "edit" ? "Update Job" : "Add Job"}
                 </h1>
-            </div>
+            </div> */}
 
             <p className={`text-md font-medium ${theme === "dark" ? "text-white" : "text-gray-500"} mb-2`}>Create a new job listing by filling out the details below.</p>
                 <div className={`text-sm ${theme === "dark" ? "text-white" : "text-gray-500"} mb-10`}>Ensure all required fields are filled out accurately.</div>
