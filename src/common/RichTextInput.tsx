@@ -43,8 +43,16 @@ export default function RichTextInput({ onChange, value }: RichTextInputProps) {
     });
   };
 
+  // // Sync incoming value (essential for Edit mode)
+  useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== value) {
+      editorRef.current.innerHTML = value || "";
+    }
+  }, [value]);
+
   // Listen to cursor/selection changes
   useEffect(() => {
+    document.execCommand("defaultParagraphSeparator", false, "p");
     document.addEventListener("selectionchange", updateToolbar);
     return () => {
       document.removeEventListener("selectionchange", updateToolbar);
@@ -138,7 +146,11 @@ export default function RichTextInput({ onChange, value }: RichTextInputProps) {
       <div
         ref={editorRef}
         contentEditable
-        onInput={() => setHtml(editorRef.current?.innerHTML || "")}
+        onInput={(e) => {
+          const val = e.currentTarget.innerHTML;
+          setHtml(val);
+          onChange(val); 
+       }}
         className={`contenteditable prose max-w-none min-h-[200px] p-3 border-[1.3px] rounded-lg outline-none ${
           theme === "dark"
             ? "prose-invert bg-lightGrey text-white border-gray-300"

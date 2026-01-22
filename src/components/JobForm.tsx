@@ -88,6 +88,11 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
         formik.setFieldValue("category", formik.values.category.filter((i) => i !== item));
     };
 
+    const handleDescriptionChange = (value: string) => {
+        console.log('value', value);
+        formik.setFieldValue("description", value);
+    }
+
     return (
         <div className="relative">
             {/* <div className={`sticky top-0 ${theme === "dark" ? "bg-lightGrey" : "bg-white"} z-10 pt-4 pb-2`}>
@@ -178,7 +183,7 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
                     ></textarea> */}
 
                     <RichTextInput
-                        onChange={(value) => formik.setFieldValue("description", value)}
+                        onChange={(value) => handleDescriptionChange(value)}
                         value={formik.values.description}
                      />
                 </fieldset>

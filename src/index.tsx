@@ -10,7 +10,7 @@ import { ApolloProvider } from "@apollo/client/react";
 import { API_URL, API_URL_PROD } from './utils/constants';
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: API_URL }),
+  link: new HttpLink({ uri: API_URL_PROD }),
   cache: new InMemoryCache(),
 });
 
