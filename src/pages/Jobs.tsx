@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { CATEGORIES } from "../utils/constants";
 import JobsSearch from "../components/JobsSearch";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import ErrorComponent from "../common/Error";
 
 export default function Jobs() {
@@ -49,6 +49,8 @@ export default function Jobs() {
         initialCategory || "All"
     );
     const { theme } = useTheme();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.jobs?.edges) {
@@ -65,7 +67,6 @@ export default function Jobs() {
     }, [data, error]);
 
     useEffect(() => {
-        console.log("filters updated", loading);
         refetch({
             search: filters.search,
             location: filters.location,
@@ -89,7 +90,11 @@ export default function Jobs() {
         console.log("handleLoadMore");
         setLoadingMore(true);
         try {
-            const cursor = data?.jobs.edges[data?.jobs.edges.length - 1].cursor;
+            // const cursor = data?.jobs.edges[data?.jobs.edges.length - 1].cursor;
+            const lastJob = jobs[jobs.length - 1];
+            console.log(lastJob.createdAt);
+            const cursor = new Date(Number(lastJob.createdAt)).toISOString();
+
             console.log("cursor", cursor);
             const res = await fetchMore({
                 variables: {
@@ -132,7 +137,7 @@ export default function Jobs() {
                     clearFilters={handleClearFilters}
                 />
             </div>
-            {loading || (loading && jobs.length === 0) ? (
+            {loading && !loadingMore || (loading && jobs.length === 0) ? (
                 <div className="max-w-4xl mx-auto px-4 py-8">
                     <JobSkeleton />
                     <JobSkeleton />
@@ -140,7 +145,7 @@ export default function Jobs() {
                 </div>
             ) : (
                 <ul className="max-w-4xl mx-auto px-4 py-8">
-                    {jobs.length === 0 && !loading && (
+                    {jobs.length === 0 && !loading && !error && (
                         <p className="text-center opacity-50 py-10">
                             No jobs found
                         </p>

@@ -22,18 +22,21 @@ export default function Avatar({ user, companyName, size = "16px" }: AvatarProps
             "#f43f5e",
             "#a855f7",
         ];
-        // Deterministic color based on the email/name
-        const charCodeSum = (user?.email || "")
-            .split("")
-            .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+        const seed = companyName || user?.email || user?.company || "";
+
+        const charCodeSum = seed
+        .split("")
+        .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
         const bgColor = colors[charCodeSum % colors.length];
+
 
         return { initial, bgColor };
     };
 
     const { initial, bgColor } = getAvatarContent(user, companyName);
     return (
-        <div style={{background: bgColor}} className={`rounded-full w-${size} h-${size} flex items-center justify-center text-white text-xl md:text-2xl font-semibold shrink-0`}>
+        <div style={{background: bgColor}} className={`rounded-full w-${size} h-${size} aspect-square flex items-center justify-center text-white text-xl md:text-2xl font-semibold shrink-0`}>
             {initial || (
                 <img
                     src="/default-logo.png"

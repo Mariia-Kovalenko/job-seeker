@@ -100,6 +100,13 @@ export const GOOGLE_LOGIN = gql`
         }
     }
 `;
+
+export const LOGOUT = gql`
+  mutation Logout {
+    logout
+  }
+`;
+
 export const GOOGLE_REGISTER = gql`
     mutation GoogleRegister($email: String!, $companyName: String!) {
         googleRegister(email: $email, companyName: $companyName) {

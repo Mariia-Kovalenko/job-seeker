@@ -32,7 +32,7 @@ export default function JobDetails({ job, isInModal }: JobDetailsProps) {
                 {/* title */}
                 <div className={`${isInModal ? "mt-10": ""} text-left w-full flex gap-4`}>
                     <div className="flex-shrink-0">
-                        {job.company && <Avatar companyName={job.company} size="12px" />}
+                        {job.company && <Avatar companyName={job.company} size="12" />}
                         {/* <img
                             src="/default-logo.png"
                             alt="Company"
@@ -67,11 +67,11 @@ export default function JobDetails({ job, isInModal }: JobDetailsProps) {
                 <div className="flex flex-wrap gap-2 w-full">
                     {job.category.length > 0 && (
                         <div className="text-sm">
-                            <span
+                            <div className="flex flex-wrap gap-2">
+                                {job.category.map(cat => <span
                                 className={`mr-2 text-[0.75rem] bg-[#f4f4f4] text-gray-600 border-gray-300 inline-block py-1 px-2 rounded-full font-medium border`}
-                            >
-                                {job.category}
-                            </span>
+                            >{cat}</span>)}
+                            </div>
                         </div>
                     )}
                 </div>

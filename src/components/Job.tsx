@@ -21,7 +21,7 @@ export default function JobComponent({
     onDelete?: (id: string) => void;
     onView?: (id: string) => void;
 }) {
-    console.log("job", job);
+    // console.log("job", job);
     const { theme } = useTheme();
 
     const handleEdit = (e: React.MouseEvent) => {

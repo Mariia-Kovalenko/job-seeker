@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 
@@ -18,6 +18,19 @@ export default function Modal({
     padding = "p-2 md:p-4"
 }: ModalProps) {
     const { theme } = useTheme();
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+
+        // Cleanup: ensures scroll is restored if component unmounts unexpectedly
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isOpen]);
 
     return (
         <AnimatePresence>

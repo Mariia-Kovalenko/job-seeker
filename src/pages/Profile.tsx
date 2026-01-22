@@ -16,6 +16,7 @@ import JobDetails from "../components/JobDetails";
 import Modal from "../common/Modal";
 import Avatar from "../common/Avatar";
 import {isTokenExpired} from '../utils/jwtUtils';
+import { useLogout } from "../hooks/useLogout";
 
 export default function Profile() {
     const user = useUserStore((state) => state.user);
@@ -71,7 +72,12 @@ export default function Profile() {
     const handleLoadMore = async () => {
         setLoadingMore(true);
         try {
-            const cursor = data?.jobsByUser?.edges ? data.jobsByUser.edges[data.jobsByUser.edges.length - 1].cursor : null;
+            // const cursor = data?.jobsByUser?.edges ? data.jobsByUser.edges[data.jobsByUser.edges.length - 1].cursor : null;
+            const lastJob = jobs[jobs.length - 1];
+            console.log('last', lastJob)
+            console.log(lastJob.createdAt);
+            const cursor = new Date(Number(lastJob.createdAt)).toISOString();
+
             const res = await fetchMore({
                 variables: {
                     first: PAGE_SIZE,
@@ -88,10 +94,11 @@ export default function Profile() {
         }
     };
 
-    const logout = () => {
-        useUserStore.getState().logout();
-        navigate("/");
-    };
+    // const logout = () => {
+    //     useUserStore.getState().logout();
+    //     navigate("/");
+    // };
+    const logout = useLogout();
 
     const handleDelete = (id: string) => {
         setJobIdToDelete(id);
@@ -144,7 +151,7 @@ export default function Profile() {
                 <div className={`p-4 md:p-6 rounded-2xl border mb-8 flex flex-col sm:flex-row items-center gap-4 md:gap-6 ${
                     theme === "dark" ? "bg-lightGrey border-lighterGrey/30" : "bg-white border-gray-200 shadow-sm"
                 }`}>
-                    {user && <Avatar user={user} />}
+                    {user && <Avatar user={user} size="16" />}
                     <div className="flex-grow text-center sm:text-left overflow-hidden w-full">
                         <h2 className="text-xl font-bold truncate">{user?.company || "Company Name"}</h2>
                         <p className="opacity-60 text-sm md:text-base truncate">{user?.email}</p>
@@ -173,7 +180,7 @@ export default function Profile() {
                             </div>
                         ) : (
                             <ul className="w-full">
-                                {jobs.length === 0 && !loading && (
+                                {jobs.length === 0 && !loading && !error && (
                                     <p className="text-center opacity-50 py-10">You haven't posted any jobs yet.</p>
                                 )}
                                 {jobs.map((job: Job) => (

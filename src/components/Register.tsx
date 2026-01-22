@@ -114,9 +114,10 @@ export const Register = () => {
                     if (errors) {
                         throw new Error(errors[0].message);
                     }
-                    const { email, newToken } = data.googleRegister;
-                    setUser({ email: email, token: newToken });
-                    navigate("/jobs");
+                    console.log('on register', data.googleRegister)
+                    const { email, jwt_token, companyName } = data.googleRegister;
+                    setUser({ email: email, token: jwt_token, company: companyName });
+                    navigate("/profile");
                 } catch (err: any) {
                     console.log('error', err.message);
                     setSubmitting(false);
@@ -136,8 +137,8 @@ export const Register = () => {
                     if (errors) {
                         throw new Error(errors[0].message);
                     }
-                    const { email, newToken } = data.createUser;
-                    setUser({ email: email, token: newToken });
+                    const { email, jwt_token, companyName } = data.createUser;
+                    setUser({ email: email, token: jwt_token, company: companyName });
                     navigate("/jobs");
                 } catch (err: any) {
                     console.log('error', err);

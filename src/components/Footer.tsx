@@ -11,7 +11,7 @@ export default function Footer() {
           <p className=" max-w-xs">
             Discover thousands of curated opportunities. Helping applicants find the perfect match, and employers hire the best talent.
           </p>
-          <Link to="/register" className="mt-2 bg-orange-500 hover:bg-orange-600 text-white text-center rounded-full px-6 py-2 font-medium transition-colors">
+          <Link to="/login" className="mt-2 bg-orange-500 hover:bg-orange-600 text-white text-center rounded-full px-6 py-2 font-medium transition-colors">
             Start Hiring (For Employers)
           </Link>
         </div>

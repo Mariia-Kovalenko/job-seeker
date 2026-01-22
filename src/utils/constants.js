@@ -6,9 +6,9 @@ export const THEMES = {
 export const API_URL = "http://localhost:4000/";
 export const API_URL_PROD = "https://jobs-api-latest.onrender.com/";
 
-export const SUGGESTED_CATEGORIES = ["Marketing", "Development", "UI/UX", "Management", "Design"];
+export const SUGGESTED_CATEGORIES = ["Marketing", "Development", "UI/UX Design", "Management", "Design"];
 
-export const PAGE_SIZE = 10;
+export const PAGE_SIZE = 6;
 
 export const INTRO_SECTION_IMAGES = [
   {

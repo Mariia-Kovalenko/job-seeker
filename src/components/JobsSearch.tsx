@@ -62,7 +62,7 @@ export default function JobsSearch({
         <form className="relative" onSubmit={form.handleSubmit}>
             <div className="flex items-center gap-2 md:gap-4">
                 <fieldset
-                    className={`h-11 w-full flex items-center relative rounded-full border-[1.3px] ${
+                    className={`h-13 w-full flex items-center relative rounded-full border-[1.3px] ${
                         theme == "dark" ? "border-white" : "border-gray-500"
                     } pl-12`}
                 >

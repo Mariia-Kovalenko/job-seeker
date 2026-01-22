@@ -91,3 +91,7 @@ input:-webkit-autofill{
 .contenteditable ol {
   list-style-type: decimal;
 }
+
+ul {
+  overflow-anchor: none; 
+}

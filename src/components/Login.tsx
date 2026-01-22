@@ -81,7 +81,7 @@ export const Login = () => {
                 const company = data.login.companyName;
                 localStorage.setItem("token", token);
                 setUser({ email: values.email, token: token, company: company });
-                // navigate("/jobs");
+                navigate("/profile");
             } catch (error: any) {
                 console.error(error);
             } finally {
@@ -105,7 +105,7 @@ export const Login = () => {
             const { email, jwt_token, companyName } = data.googleLogin;
 
             setUser({ email: email, token: jwt_token, company: companyName });
-            navigate("/jobs");
+            navigate("/profile");
         } catch (err: any) {
             console.log('error', err);
             // Handle the error by setting an error state or displaying a toast

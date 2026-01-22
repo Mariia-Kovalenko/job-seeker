@@ -6,12 +6,11 @@ export default function ErrorComponent({ message }: {message: string}) {
 
   return (
     <div
-      className={`
+      className="
         max-w-4xl mx-auto p-4 rounded-md
-        ${theme === "dark" ? "bg-red-700 text-red-100" : "bg-red-100 text-red-700"}
-        border ${theme === "dark" ? "border-red-600" : "border-red-300"}
-        flex items-center gap-2
-      `}
+        bg-red-500/10 text-red-700
+        border border-red-600
+        flex items-center gap-2"
     >
       <svg
         className="w-5 h-5 flex-shrink-0"

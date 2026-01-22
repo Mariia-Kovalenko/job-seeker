@@ -10,15 +10,13 @@ import useWindowResize from "../hooks/useWindowResize";
 import { useUserStore } from "../store/userStore";
 import LogoutIcon from "../icons/Logout";
 import LogoutWhiteIcon from "../icons/LogoutWhite";
+import { useLogout } from "../hooks/useLogout";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
-    console.log("current theme in header", theme, toggleTheme);
-
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const user = useUserStore((state) => state.user);
-    console.log("user in header", user);
 
     useEffect(() => {
         setIsOpen(false);
@@ -40,10 +38,11 @@ export default function Header() {
         setIsOpen(!isOpen);
     };
 
-    const logout = () => {
-        useUserStore.getState().logout();
-        navigate("/login");
-    };
+    // const logout = () => {
+    //     useUserStore.getState().logout();
+    //     navigate("/login");
+    // };
+    const logout = useLogout();
     return (
         <header
             style={{ zIndex: 100 }}
@@ -146,7 +145,7 @@ export default function Header() {
                                 </span>
                             </div>
                             <NavLink
-                                to="/register"
+                                to="/login"
                                 className="flex items-center justify-center w-full h-12 bg-primary text-white rounded-xl font-bold transition-transform active:scale-95"
                             >
                                 Start Hiring
@@ -179,7 +178,7 @@ export default function Header() {
                             <div className="flex flex-col items-end">
                                 <div className="flex gap-4">
                                     <NavLink
-                                        to="/register"
+                                        to="/login"
                                         className="flex items-center justify-center w-fit h-10 bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors"
                                     >
                                         Start Hiring

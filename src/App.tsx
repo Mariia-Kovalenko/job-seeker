@@ -9,16 +9,26 @@ import { useUserStore } from './store/userStore';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import JobPage from './pages/JobPage';
 import Profile from './pages/Profile';
+import {isTokenExpired} from './utils/jwtUtils'
 
 function App() {
+  // TODO: improve to use refresh token
   const user = localStorage.getItem('user');
   if (user) {
     useUserStore.setState({ user: JSON.parse(user) });
+
+    // check if user token expired. If yes, logout
+   const token = JSON.parse(user).token;
+
+   const isExpired = isTokenExpired(token);
+   if (isExpired) {
+    useUserStore.getState().logout();
+   }
+
   } else {
     useUserStore.setState({ user: null });
   }
 
-  console.log('client id', process.env.REACT_APP_GOOGLE_CLIENT_ID);
   return (
     <div className="App">
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}>

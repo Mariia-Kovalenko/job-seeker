@@ -79,7 +79,7 @@ export default function JobRecommendations({ relatedJobs }: { relatedJobs: Job[]
                             </div>
                             
                             <div className="flex items-center justify-between mt-4">
-                                <span className={`text-xs px-2 py-1 rounded-full font-semibold${
+                                <span className={`text-xs px-2 py-1 rounded-full font-semibold capitalize ${
                                     theme === 'dark' 
                                     ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' 
                                     : 'bg-blue-50 text-blue-700 border border-blue-100'
