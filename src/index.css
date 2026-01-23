@@ -12,6 +12,10 @@ body {
   overflow-x: hidden;
 }
 
+body.dark {
+  background-color: #171717; 
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

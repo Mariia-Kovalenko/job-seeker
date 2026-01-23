@@ -47,6 +47,14 @@ function App() {
       window.scrollTo(0, 0);
   };
 
+  useEffect(() => {
+    if (theme === "dark") {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [theme]);
+
 
   return (
     <div className={`App ${theme == "dark" ? "bg-darkBackground": ""}`}>
