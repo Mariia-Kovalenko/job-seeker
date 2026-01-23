@@ -12,12 +12,15 @@ import LogoutIcon from "../icons/Logout";
 import LogoutWhiteIcon from "../icons/LogoutWhite";
 import { useLogout } from "../hooks/useLogout";
 import Avatar from "../common/Avatar";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
     const user = useUserStore((state) => state.user);
+
+    useBodyScrollLock(isOpen);
 
     useEffect(() => {
         setIsOpen(false);

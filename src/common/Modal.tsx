@@ -21,22 +21,22 @@ export default function Modal({
     padding = "p-2 md:p-4"
 }: ModalProps) {
     const { theme } = useTheme();
-    // useBodyScrollLock(isOpen);
+    useBodyScrollLock(isOpen);
 
-    // if (!isOpen) return null;
+    if (!isOpen) return null;
 
-    useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "unset";
-        }
+    // useEffect(() => {
+    //     if (isOpen) {
+    //         document.body.style.overflow = "hidden";
+    //     } else {
+    //         document.body.style.overflow = "unset";
+    //     }
 
-        // Cleanup: ensures scroll is restored if component unmounts unexpectedly
-        return () => {
-            document.body.style.overflow = "unset";
-        };
-    }, [isOpen]);
+    //     // Cleanup: ensures scroll is restored if component unmounts unexpectedly
+    //     return () => {
+    //         document.body.style.overflow = "unset";
+    //     };
+    // }, [isOpen]);
 
     return (
         <AnimatePresence>
