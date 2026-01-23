@@ -1,5 +1,5 @@
 import * as motion from "motion/react-client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Toggle({
@@ -12,7 +12,11 @@ export default function Toggle({
   className?: string;
 }) {
   const { theme, toggleTheme } = useTheme();
-  const [isOn, setIsOn] = useState(theme === "light");
+  const [isOn, setIsOn] = useState(false);
+
+  useEffect(() => {
+    setIsOn(theme === "light");
+  }, [theme]);
 
   return (
     <button
