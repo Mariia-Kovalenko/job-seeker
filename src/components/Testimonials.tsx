@@ -23,9 +23,6 @@ export default function TestimonialsMarquee() {
 
     const startAnimation = () => {
         if (!trackRef.current) return;
-
-        console.log('restart with duration', duration)
-    
         const trackWidth = trackRef.current.scrollWidth / 2;
         const currentX = x.get(); 
     

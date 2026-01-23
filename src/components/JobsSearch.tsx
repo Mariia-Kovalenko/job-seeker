@@ -33,7 +33,7 @@ export default function JobsSearch({
             categories: "",
         },
         onSubmit: (values) => {
-            console.log("will submit form with values:", values);
+            // console.log("will submit form with values:", values);
             onSubmit(values);
         },
     });

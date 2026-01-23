@@ -1,5 +1,6 @@
 import { useTheme } from "../context/ThemeContext";
 import { useEffect, useRef, useState } from "react";
+import  DOMPurify from "dompurify";
 
 type RichTextInputProps = {
   onChange: (value: string) => void;
@@ -147,10 +148,17 @@ export default function RichTextInput({ onChange, value }: RichTextInputProps) {
         ref={editorRef}
         contentEditable
         onInput={(e) => {
-          const val = e.currentTarget.innerHTML;
-          setHtml(val);
-          onChange(val); 
+          // const val = e.currentTarget.innerHTML;
+          const rawHtml = e.currentTarget.innerHTML;
+          const cleanHtml = DOMPurify.sanitize(rawHtml);
+          setHtml(cleanHtml);
+          onChange(cleanHtml); 
        }}
+       onPaste={(e) => {
+        e.preventDefault();
+        const text = e.clipboardData.getData("text/plain");
+        document.execCommand("insertText", false, text);
+      }}
         className={`contenteditable prose max-w-none min-h-[200px] p-3 border-[1.3px] rounded-lg outline-none ${
           theme === "dark"
             ? "prose-invert bg-lightGrey text-white border-gray-300"

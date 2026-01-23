@@ -11,6 +11,7 @@ import { useUserStore } from "../store/userStore";
 import LogoutIcon from "../icons/Logout";
 import LogoutWhiteIcon from "../icons/LogoutWhite";
 import { useLogout } from "../hooks/useLogout";
+import Avatar from "../common/Avatar";
 
 export default function Header() {
     const { theme, toggleTheme } = useTheme();
@@ -34,7 +35,6 @@ export default function Header() {
     }, [windowWidth]);
 
     const toggleNavigation = () => {
-        console.log("isOpen", isOpen);
         setIsOpen(!isOpen);
     };
 
@@ -75,10 +75,11 @@ export default function Header() {
                                     to="/profile"
                                     className="flex items-center gap-4"
                                 >
-                                    <img
+                                    {/* <img
                                         src="/profile-default.webp"
                                         className="rounded-full h-14 w-14 object-cover aspect-square"
-                                    />
+                                    /> */}
+                                    <Avatar user={user} size="16" />
                                     <div className="flex flex-col items-start justify-start">
                                         <span className="text-bold text-sm">
                                             {user.company}
@@ -145,7 +146,7 @@ export default function Header() {
                                 </span>
                             </div>
                             <NavLink
-                                to="/login"
+                                to="/register"
                                 className="flex items-center justify-center w-full h-12 bg-primary text-white rounded-xl font-bold transition-transform active:scale-95"
                             >
                                 Start Hiring

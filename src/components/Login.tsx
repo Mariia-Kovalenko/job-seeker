@@ -69,11 +69,9 @@ export const Login = () => {
         onSubmit: async (values) => {
             setSubmitting(true);
             try {
-                console.log(values);
                 const { data, error }: { data: any; error: any } = (await login(
                     { variables: values }
                 )) as { data: any; error: any };
-                console.log(data);
                 if (error) {
                     throw new Error(error.message);
                 }
@@ -91,14 +89,10 @@ export const Login = () => {
     });
 
     const loginSuccess = async (credentialResponse: any) => {
-        console.log(credentialResponse);
         const token = credentialResponse.credential;
-        console.log(token);
-
         try {
             // send request to backend to verify user and get user info
             const { data, errors }: { data: any; errors: any } = (await googleLoginMutation({ variables: { token: token } })) as { data: any; errors: any };
-            console.log('response', data, errors);
             if (errors) {
                 throw new Error(errors[0].message);
             }
@@ -107,43 +101,14 @@ export const Login = () => {
             setUser({ email: email, token: jwt_token, company: companyName });
             navigate("/profile");
         } catch (err: any) {
-            console.log('error', err);
             // Handle the error by setting an error state or displaying a toast
             if (err.message.includes('User not found')) {
                 // show error message
-                console.log('user not found');
                 setGoogleLoginError("User not found");
                 
             }
         }
     }
-
-    // const googleLogin = useGoogleLogin({
-    //     onSuccess: async (tokenResponse) => {
-    //         console.log("response", tokenResponse);
-    //         const token = tokenResponse.access_token;
-    //         console.log("token", token);
-
-    //         const userInfo = await axios.get(
-    //             "https://www.googleapis.com/oauth2/v3/userinfo",
-    //             {
-    //                 headers: { Authorization: `Bearer ${token}` },
-    //             }
-    //         );
-    //         console.log("userInfo", userInfo.data);
-    //         const email = userInfo.data.email;
-    //         console.log("email", email);
-    //         if (!email) {
-    //             throw new Error("Email not found");
-    //         }
-    //         // add user to store
-    //         setUser({ email: email, token: token });
-    //         navigate("/jobs");
-    //     },
-    //     onError: () => {
-    //         console.log("Login Failed");
-    //     },
-    // });
 
     return (
         <div className="w-full max-w-md mx-auto text-left px-4 py-6 min-h-[calc(100vh-64px)] flex flex-col justify-center">
@@ -279,7 +244,7 @@ export const Login = () => {
                                 text="signin_with"
                                 onSuccess={loginSuccess}
                                 onError={() => {
-                                    console.log("Login Failed");
+                                    console.error("Login Failed");
                                 }}
                             />
                         </div>

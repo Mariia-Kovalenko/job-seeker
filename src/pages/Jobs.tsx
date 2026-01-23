@@ -73,8 +73,6 @@ export default function Jobs() {
         if (filters.location) params.set("location", filters.location);
         if (filters.workType) params.set("workType", filters.workType);
         if (filters.categories) params.set("category", filters.categories);
-    
-        console.log('set search params')
         // Update the URL without adding a new history entry
         setSearchParams(params, { replace: true });
     
@@ -115,15 +113,12 @@ export default function Jobs() {
     // }, [filters, refetch]);
 
     const handleLoadMore = async () => {
-        console.log("handleLoadMore");
         setLoadingMore(true);
         try {
             // const cursor = data?.jobs.edges[data?.jobs.edges.length - 1].cursor;
             const lastJob = jobs[jobs.length - 1];
-            console.log(lastJob.createdAt);
             const cursor = new Date(Number(lastJob.createdAt)).toISOString();
 
-            console.log("cursor", cursor);
             const res = await fetchMore({
                 variables: {
                     first: PAGE_SIZE, // or any number you want to fetch
@@ -141,7 +136,6 @@ export default function Jobs() {
     };
 
     const handleFilterSubmit = (values: any) => {
-        console.log("values", values);
         setFilters(values);
     };
 

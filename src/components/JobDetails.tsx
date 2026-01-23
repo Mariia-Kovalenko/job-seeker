@@ -56,8 +56,7 @@ export default function JobDetails({ job, isInModal }: JobDetailsProps) {
 
                         <div className="text-sm mt-1 opacity-75">
                             <span>
-                                {job.company} •{" "}
-                                {job.location}
+                                {job.company} {job.location && `• ${job.location}`}
                             </span>
                         </div>
                     </div>

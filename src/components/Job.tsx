@@ -21,7 +21,6 @@ export default function JobComponent({
     onDelete?: (id: string) => void;
     onView?: (id: string) => void;
 }) {
-    // console.log("job", job);
     const { theme } = useTheme();
 
     const handleEdit = (e: React.MouseEvent) => {
@@ -39,6 +38,7 @@ export default function JobComponent({
     const Wrapper = isUserProfile ? "div" : "a";
 
     const handleView = () => {
+        console.log('view', job._id)
         if (isUserProfile) {
             onView?.(job._id);
         }
@@ -152,7 +152,7 @@ export default function JobComponent({
                         <h2 className="text-lg font-bold">{job.title}</h2>
                         <div className="text-sm mt-1 opacity-75">
                             <span>
-                                {job.company} • {job.location}
+                                {job.company} {job.location && `• ${job.location}`}
                             </span>
                         </div>
                     </div>

@@ -18,9 +18,8 @@ export function useLogout() {
               },
             },
           });
-        console.log('res', res);
       } catch (err) {
-       console.log('err', err)
+       console.error('err', err)
       } finally {
         await client.clearStore();     
         useUserStore.getState().logout(); 

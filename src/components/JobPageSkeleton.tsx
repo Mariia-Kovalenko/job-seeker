@@ -40,7 +40,6 @@ export default function JobPageSkeleton() {
                 {/* Salary & WorkType */}
                 <div className="flex gap-2 items-center w-full mt-2">
                     <div className={`h-8 w-32 ${shimmerClass}`}></div>
-                    <div className="text-gray-300 opacity-50">•</div>
                     <div className={`h-4 w-20 ${shimmerClass}`}></div>
                 </div>
 

@@ -74,8 +74,6 @@ export default function Profile() {
         try {
             // const cursor = data?.jobsByUser?.edges ? data.jobsByUser.edges[data.jobsByUser.edges.length - 1].cursor : null;
             const lastJob = jobs[jobs.length - 1];
-            console.log('last', lastJob)
-            console.log(lastJob.createdAt);
             const cursor = new Date(Number(lastJob.createdAt)).toISOString();
 
             const res = await fetchMore({
@@ -118,7 +116,6 @@ export default function Profile() {
                 },
             });
             await refetch();
-            console.log("Job deleted successfully");
         } catch (err) {
             console.error("Error deleting job:", err);
         } finally {
@@ -132,13 +129,14 @@ export default function Profile() {
         // set form valued to job data
         setJobToEdit(jobs.find((job) => job._id === id) || null);
         setAddJobModalOpen(true);
-        console.log("edit job", id);
     };
 
     const handleViewJob = (id: string) => {
-        setJobToView(jobs.find((job) => job._id === id) || null);
-        setViewJobModalOpen(true);
-        console.log("view job details", id);
+        const selectedJob = jobs.find((job) => job._id === id);
+        if (selectedJob) {
+            setJobToView(selectedJob);
+            setViewJobModalOpen(true); 
+        }
     };
 
 

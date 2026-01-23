@@ -36,7 +36,7 @@ export default function Avatar({ user, companyName, size = "16px" }: AvatarProps
 
     const { initial, bgColor } = getAvatarContent(user, companyName);
     return (
-        <div style={{background: bgColor}} className={`rounded-full w-${size} h-${size} aspect-square flex items-center justify-center text-white text-xl md:text-2xl font-semibold shrink-0`}>
+        <div style={{background: bgColor}} className={`rounded-full w-${size} h-${size} aspect-square shrink-0 flex items-center justify-center text-white text-xl md:text-2xl font-semibold shrink-0`}>
             {initial || (
                 <img
                     src="/default-logo.png"

@@ -21,10 +21,12 @@ export default function JobPage() {
         variables: { id },
     });
 
+    console.log('job page cat', data?.job.category)
+
     // query related jobs by category
     const { data: relatedJobsData, loading: relatedJobsLoading, error: relatedJobsError } = useQuery<JobsData>(GET_JOBS, {
         variables: {
-            category: data?.job.category,
+            categories: data?.job.category,
         },
     });
 

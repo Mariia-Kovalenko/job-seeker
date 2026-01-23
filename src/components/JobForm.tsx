@@ -8,6 +8,7 @@ import { SUGGESTED_CATEGORIES } from "../utils/constants";
 import { useUserStore } from "../store/userStore";
 import { Job } from "../utils/types";
 import RichTextInput from "../common/RichTextInput";
+import DOMPurify from "dompurify";
 
 type JobFormProps = {
     setAddJobModalOpen?: (open: boolean) => void;
@@ -36,10 +37,12 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
             workType: job?.workType || ""
         },
         onSubmit: async (values) => {
-            console.log('description value', values.description);
+ 
+            const sanitizedDescription = DOMPurify.sanitize(values.description);
 
             const variables = {
                 ...values,
+                description: sanitizedDescription,
                 workType: values.workType.toLowerCase()
             };
 
@@ -49,7 +52,6 @@ function JobForm({ modalMode, setModalMode, job, onSuccess }: JobFormProps) {
                         ...variables,
                         _id: job?._id
                     };
-                    console.log("update job", updateVariables);
                     await updateJob({ variables: updateVariables, context: { headers: { Authorization: `Bearer ${user?.token}` } } });
                 } else {
                     await postNewJob({ variables, context: { headers: { Authorization: `Bearer ${user?.token}` } } });

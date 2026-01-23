@@ -2,7 +2,6 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
-  console.log("current theme", theme);
   return (
     <>
       {theme == "dark" ? (

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 
 type ModalProps = {
     isOpen: boolean;
@@ -20,6 +21,9 @@ export default function Modal({
     padding = "p-2 md:p-4"
 }: ModalProps) {
     const { theme } = useTheme();
+    // useBodyScrollLock(isOpen);
+
+    // if (!isOpen) return null;
 
     useEffect(() => {
         if (isOpen) {
