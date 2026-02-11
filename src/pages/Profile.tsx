@@ -12,11 +12,11 @@ import { Job, UserJobsData } from "../utils/types";
 import JobSkeleton from "../components/JobSkeleton";
 import JobComponent from "../components/Job";
 import { PAGE_SIZE } from "../utils/constants";
-import JobDetails from "../components/JobDetails";
 import Modal from "../common/Modal";
 import Avatar from "../common/Avatar";
 import {isTokenExpired} from '../utils/jwtUtils';
 import { useLogout } from "../hooks/useLogout";
+import { JobDetails } from "../components/JobDetails";
 
 export default function Profile() {
     const user = useUserStore((state) => state.user);
@@ -227,7 +227,7 @@ export default function Profile() {
 
             {/* view job modal */}
             <Modal isOpen={viewJobModalOpen} onClose={() => setViewJobModalOpen(false)} padding="p-0">
-                {jobToView && <JobDetails job={jobToView} isInModal={true} />}
+                {jobToView && <JobDetails.Modal job={jobToView} />}
             </Modal>
 
             {/* delete confirmation modal */}

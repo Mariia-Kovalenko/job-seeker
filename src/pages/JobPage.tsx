@@ -8,7 +8,7 @@ import ArrowLeftIcon from "../icons/ArrowLeftIcon";
 import JobRecommendations from "../components/JobRecommendation";
 import JobPageSkeleton from "../components/JobPageSkeleton";
 import JobRecommendationSkeleton from "../components/JobRecommendationSkeleton";
-import JobDetails from "../components/JobDetails";
+import { JobDetails } from "../components/JobDetails";
 
 type JobData = {
     job: Job;
@@ -56,7 +56,7 @@ export default function JobPage() {
                 {loading ? (
                     <JobPageSkeleton />
                 ) : (
-                    data && <JobDetails job={data.job} />
+                    data && <JobDetails.Card job={data.job} />
                 )}
             </div>
 
