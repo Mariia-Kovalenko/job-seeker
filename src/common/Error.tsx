@@ -2,7 +2,6 @@ import React from "react";
 import { useTheme } from "../context/ThemeContext";
 
 export default function ErrorComponent({ message }: {message: string}) {
-  const { theme } = useTheme();
 
   return (
     <div

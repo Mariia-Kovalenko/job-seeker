@@ -4,7 +4,7 @@ import { EyeIcon } from "../icons/EyeIcon";
 import { EyeSlashIcon } from "../icons/EyeSlashIcon";
 import { useTheme } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../common/Button";
+import Button from "../common/Button/Button";
 import {
     GoogleLogin,
     useGoogleLogin,

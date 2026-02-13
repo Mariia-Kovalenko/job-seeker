@@ -6,7 +6,7 @@ import { useTheme } from "../context/ThemeContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client/react";
 import { LOGIN } from "../graphql/mutations";
-import Button from "../common/Button";
+import Button from "../common/Button/Button";
 import { useUserStore } from "../store/userStore";
 import { useGoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";

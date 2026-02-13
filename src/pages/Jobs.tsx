@@ -4,12 +4,12 @@ import { Job, JobsData } from "../utils/types";
 import JobComponent from "../components/Job";
 import { useState, useEffect } from "react";
 import JobSkeleton from "../components/JobSkeleton";
-import Button from "../common/Button";
+import Button from "../common/Button/Button";
 import { PAGE_SIZE } from "../utils/constants";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import { CATEGORIES } from "../utils/constants";
-import JobsSearch from "../components/JobsSearch";
+import JobsSearch from "../components/JobSearch/JobsSearch";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import ErrorComponent from "../common/Error";
 

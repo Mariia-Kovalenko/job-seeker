@@ -2,7 +2,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import ThemeToggle from "../icons/ThemeToggle";
 import Logo from "../icons/Logo";
-import Toggle from "../common/Toggle";
+import Toggle from "../common/Toggle/Toggle";
 import IconDarkMode from "../icons/IconDarkMode";
 import IconLightMode from "../icons/IconLightMode";
 import { useState, useEffect } from "react";

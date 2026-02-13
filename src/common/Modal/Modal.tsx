@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "../context/ThemeContext";
-import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
+import { useTheme } from "../../context/ThemeContext";
+import { useBodyScrollLock } from "../../hooks/useBodyScrollLock";
 
 type ModalProps = {
     isOpen: boolean;
@@ -67,6 +67,7 @@ export default function Modal({
                                 </h1>
                             }
                                 <button
+                                data-testid="close-button"
                                 className={`absolute top-4 right-4 z-50 flex items-center justify-center w-10 h-10 rounded-full border transition-all ${
                                     theme === "dark" 
                                     ? "text-white/40 border-white/10 hover:bg-white/5" 

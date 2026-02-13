@@ -11,7 +11,7 @@ import JobPage from './pages/JobPage';
 import Profile from './pages/Profile';
 import {isTokenExpired} from './utils/jwtUtils';
 import { useState, useEffect } from 'react';
-import ScrollTop from './common/ScrollTop';
+import ScrollTop from './common/ScrollTop/ScrollTop';
 import ScrollToTop from './common/ScrollToTop';
 import { useTheme } from './context/ThemeContext';
 

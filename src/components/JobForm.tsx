@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import Button from '../common/Button';
+import Button from '../common/Button/Button';
 import { useMutation } from "@apollo/client/react";
 import { ADD_JOB, UPDATE_JOB } from "../graphql/mutations";
 import { useTheme } from "../context/ThemeContext";

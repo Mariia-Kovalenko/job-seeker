@@ -1,5 +1,5 @@
 import { useUserStore } from "../store/userStore";
-import Button from "../common/Button";
+import Button from "../common/Button/Button";
 import { useNavigate } from "react-router-dom";
 import JobForm from "../components/JobForm";
 import { useState, useEffect } from "react";
@@ -12,7 +12,7 @@ import { Job, UserJobsData } from "../utils/types";
 import JobSkeleton from "../components/JobSkeleton";
 import JobComponent from "../components/Job";
 import { PAGE_SIZE } from "../utils/constants";
-import Modal from "../common/Modal";
+import Modal from "../common/Modal/Modal";
 import Avatar from "../common/Avatar";
 import {isTokenExpired} from '../utils/jwtUtils';
 import { useLogout } from "../hooks/useLogout";

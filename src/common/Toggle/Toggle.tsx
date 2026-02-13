@@ -1,6 +1,6 @@
 import * as motion from "motion/react-client";
 import { useState, useEffect } from "react";
-import { useTheme } from "../context/ThemeContext";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Toggle({
   isOnComponent,
